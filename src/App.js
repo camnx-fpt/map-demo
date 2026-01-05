@@ -14,21 +14,95 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
 
-// Custom icons
-const ambulanceIcon = new L.Icon({
-  iconUrl: `${process.env.PUBLIC_URL}/assets/ic-circle-ambulance.svg`,
+// Inline SVG icons
+const hospitalSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <defs>
+    <linearGradient id="hospitalGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0891B2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0E7490;stop-opacity:1" />
+    </linearGradient>
+    <filter id="hospitalShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.3"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <circle cx="20" cy="20" r="18" fill="url(#hospitalGradient)" filter="url(#hospitalShadow)"/>
+  <circle cx="20" cy="20" r="18" fill="none" stroke="#ffffff" stroke-width="2"/>
+  <g transform="translate(20, 20)">
+    <rect x="-2.5" y="-9" width="5" height="18" fill="#ffffff" rx="1"/>
+    <rect x="-9" y="-2.5" width="18" height="5" fill="#ffffff" rx="1"/>
+  </g>
+  <text x="20" y="34" font-family="Poppins, sans-serif" font-size="8" font-weight="700" text-anchor="middle" fill="#ffffff">H</text>
+</svg>`;
+
+const ambulanceSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <defs>
+    <linearGradient id="ambulanceGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#DC2626;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B91C1C;stop-opacity:1" />
+    </linearGradient>
+    <filter id="ambulanceShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.3"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <circle cx="20" cy="20" r="18" fill="url(#ambulanceGradient)" filter="url(#ambulanceShadow)"/>
+  <circle cx="20" cy="20" r="18" fill="none" stroke="#ffffff" stroke-width="2"/>
+  <g transform="translate(20, 20)">
+    <rect x="-8" y="-4" width="14" height="7" fill="#ffffff" rx="1"/>
+    <rect x="6" y="-3" width="4" height="5" fill="#ffffff" rx="0.5"/>
+    <rect x="-2" y="-6" width="4" height="1.5" fill="#FEF3C7" rx="0.5"/>
+    <rect x="-4" y="-1.5" width="1.2" height="3.5" fill="#DC2626"/>
+    <rect x="-5.1" y="-0.4" width="3.4" height="1.2" fill="#DC2626"/>
+    <circle cx="-5" cy="4" r="1.5" fill="#374151"/>
+    <circle cx="5" cy="4" r="1.5" fill="#374151"/>
+  </g>
+</svg>`;
+
+const discoverySvg = `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <defs>
+    <linearGradient id="discoveryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#EA580C;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#C2410C;stop-opacity:1" />
+    </linearGradient>
+    <filter id="discoveryShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.3"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <circle cx="20" cy="20" r="18" fill="url(#discoveryGradient)" filter="url(#discoveryShadow)"/>
+  <circle cx="20" cy="20" r="18" fill="none" stroke="#ffffff" stroke-width="2"/>
+  <g transform="translate(20, 12)">
+    <path d="M 0,-8 C -4,-8 -7,-5 -7,-1 C -7,3 0,10 0,10 C 0,10 7,3 7,-1 C 7,-5 4,-8 0,-8 Z" fill="#ffffff"/>
+    <circle cx="0" cy="-1" r="2.5" fill="#EA580C"/>
+  </g>
+  <g transform="translate(20, 28)">
+    <rect x="-1" y="-3" width="2" height="2" fill="#ffffff" rx="0.3"/>
+    <circle cx="0" cy="0" r="0.8" fill="#ffffff"/>
+  </g>
+</svg>`;
+
+// Custom icons with inline SVG
+const ambulanceIcon = new L.DivIcon({
+  className: 'custom-marker',
+  html: `<div class="ambulance-marker">${ambulanceSvg}</div>`,
   iconSize: [40, 40],
   iconAnchor: [20, 40],
-  popupAnchor: [0, -40],
-  className: 'ambulance-marker'
+  popupAnchor: [0, -40]
 });
 
-const discoveryIcon = new L.Icon({
-  iconUrl: `${process.env.PUBLIC_URL}/assets/ic-circle-discovery.svg`,
+const discoveryIcon = new L.DivIcon({
+  className: 'custom-marker',
+  html: `<div class="discovery-marker">${discoverySvg}</div>`,
   iconSize: [40, 40],
   iconAnchor: [20, 40],
-  popupAnchor: [0, -40],
-  className: 'discovery-marker'
+  popupAnchor: [0, -40]
 });
 
 function App() {
@@ -103,7 +177,7 @@ function App() {
       className: 'custom-hospital-marker',
       html: `
         <div class="marker-container">
-          <img src="${process.env.PUBLIC_URL}/assets/ic-circle-hospital.svg" alt="Hospital" class="hospital-marker" />
+          <div class="hospital-marker">${hospitalSvg}</div>
           ${count > 0 ? `<span class="marker-badge">${count}</span>` : ''}
         </div>
       `,

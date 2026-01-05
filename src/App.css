@@ -329,7 +329,7 @@ button, input, label {
 }
 
 /* Leaflet marker animations and cursor */
-.hospital-marker,
+.marker-container .hospital-marker,
 .ambulance-marker,
 .discovery-marker {
   cursor: pointer;
@@ -337,7 +337,7 @@ button, input, label {
   opacity: 0.85;
 }
 
-.hospital-marker:hover,
+.marker-container .hospital-marker:hover,
 .ambulance-marker:hover,
 .discovery-marker:hover {
   transform: scale(1.1);
@@ -352,6 +352,11 @@ button, input, label {
   cursor: pointer !important;
 }
 
+.custom-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
 .marker-container {
   position: relative;
   width: 40px;
@@ -359,7 +364,9 @@ button, input, label {
   cursor: pointer;
 }
 
-.marker-container img {
+.marker-container .hospital-marker,
+.ambulance-marker,
+.discovery-marker {
   width: 40px;
   height: 40px;
   display: block;
