@@ -2,6 +2,7 @@
   "name": "japan-hospital-map",
   "version": "1.0.0",
   "private": true,
+  "homepage": "https://camnx-fpt.github.io/test-map",
   "dependencies": {
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
