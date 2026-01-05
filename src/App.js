@@ -16,7 +16,7 @@ L.Icon.Default.mergeOptions({
 
 // Custom icons
 const ambulanceIcon = new L.Icon({
-  iconUrl: '/assets/ic-circle-ambulance.svg',
+  iconUrl: `${process.env.PUBLIC_URL}/assets/ic-circle-ambulance.svg`,
   iconSize: [40, 40],
   iconAnchor: [20, 40],
   popupAnchor: [0, -40],
@@ -24,7 +24,7 @@ const ambulanceIcon = new L.Icon({
 });
 
 const discoveryIcon = new L.Icon({
-  iconUrl: '/assets/ic-circle-discovery.svg',
+  iconUrl: `${process.env.PUBLIC_URL}/assets/ic-circle-discovery.svg`,
   iconSize: [40, 40],
   iconAnchor: [20, 40],
   popupAnchor: [0, -40],
@@ -103,7 +103,7 @@ function App() {
       className: 'custom-hospital-marker',
       html: `
         <div class="marker-container">
-          <img src="/assets/ic-circle-hospital.svg" alt="Hospital" class="hospital-marker" />
+          <img src="${process.env.PUBLIC_URL}/assets/ic-circle-hospital.svg" alt="Hospital" class="hospital-marker" />
           ${count > 0 ? `<span class="marker-badge">${count}</span>` : ''}
         </div>
       `,

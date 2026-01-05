@@ -36,17 +36,13 @@ jobs:
         run: npm run build
         env:
           CI: false
+          PUBLIC_URL: /test-map
+          REACT_APP_BASE_PATH: /test-map
           
-      - name: Fix asset paths for GitHub Pages subdirectory
+      - name: Verify assets folder
         run: |
-          # Replace absolute paths with relative paths in index.html
-          sed -i 's|"/test-map/static/|"./static/|g' ./build/index.html
-          sed -i 's|href="/test-map/|href="./|g' ./build/index.html
-          sed -i 's|src="/test-map/|src="./|g' ./build/index.html
-          
-          # Fix asset paths in JavaScript bundles - add /test-map/ prefix
-          find ./build/static/js -type f -name "*.js" -exec sed -i 's|"/assets/|"/test-map/assets/|g' {} +
-          find ./build/static/js -type f -name "*.js" -exec sed -i 's|'"'"'/assets/|/test-map/assets/|g' {} +
+          echo "Checking if assets exist in build..."
+          ls -la ./build/assets/ || echo "Assets folder not found in build"
           
       - name: Add .nojekyll to build
         run: touch ./build/.nojekyll
