@@ -37,6 +37,12 @@ jobs:
         env:
           CI: false
           
+      - name: Add .nojekyll to build
+        run: touch ./build/.nojekyll
+        
+      - name: List build directory
+        run: ls -la ./build && ls -la ./build/static || echo "No static folder"
+          
       - name: Setup Pages
         uses: actions/configure-pages@v4
         
