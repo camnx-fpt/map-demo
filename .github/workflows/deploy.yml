@@ -37,6 +37,13 @@ jobs:
         env:
           CI: false
           
+      - name: Fix asset paths for GitHub Pages subdirectory
+        run: |
+          # Replace absolute paths with relative paths in index.html
+          sed -i 's|"/test-map/static/|"./static/|g' ./build/index.html
+          sed -i 's|href="/test-map/|href="./|g' ./build/index.html
+          sed -i 's|src="/test-map/|src="./|g' ./build/index.html
+          
       - name: Add .nojekyll to build
         run: touch ./build/.nojekyll
         
