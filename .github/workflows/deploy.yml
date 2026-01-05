@@ -44,9 +44,9 @@ jobs:
           sed -i 's|href="/test-map/|href="./|g' ./build/index.html
           sed -i 's|src="/test-map/|src="./|g' ./build/index.html
           
-          # Fix asset paths in JavaScript bundles (for SVG icons)
-          find ./build/static/js -type f -name "*.js" -exec sed -i 's|"/assets/|"./assets/|g' {} +
-          find ./build/static/js -type f -name "*.js" -exec sed -i 's|/assets/|./assets/|g' {} +
+          # Fix asset paths in JavaScript bundles - add /test-map/ prefix
+          find ./build/static/js -type f -name "*.js" -exec sed -i 's|"/assets/|"/test-map/assets/|g' {} +
+          find ./build/static/js -type f -name "*.js" -exec sed -i 's|'"'"'/assets/|/test-map/assets/|g' {} +
           
       - name: Add .nojekyll to build
         run: touch ./build/.nojekyll
