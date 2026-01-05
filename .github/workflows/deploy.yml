@@ -36,7 +36,6 @@ jobs:
         run: npm run build
         env:
           CI: false
-          PUBLIC_URL: /test-map
           
       - name: Setup Pages
         uses: actions/configure-pages@v4
