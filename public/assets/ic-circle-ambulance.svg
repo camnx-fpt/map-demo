@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <!-- Circle background with emergency red gradient -->
+  <defs>
+    <linearGradient id="ambulanceGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#DC2626;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B91C1C;stop-opacity:1" />
+    </linearGradient>
+    <filter id="ambulanceShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Shadow circle -->
+  <circle cx="20" cy="20" r="18" fill="url(#ambulanceGradient)" filter="url(#ambulanceShadow)"/>
+  
+  <!-- White border -->
+  <circle cx="20" cy="20" r="18" fill="none" stroke="#ffffff" stroke-width="2"/>
+  
+  <!-- Ambulance icon (simplified) -->
+  <g transform="translate(20, 20)">
+    <!-- Ambulance body -->
+    <rect x="-8" y="-4" width="14" height="7" fill="#ffffff" rx="1"/>
+    <!-- Cabin -->
+    <rect x="6" y="-3" width="4" height="5" fill="#ffffff" rx="0.5"/>
+    <!-- Roof light -->
+    <rect x="-2" y="-6" width="4" height="1.5" fill="#FEF3C7" rx="0.5"/>
+    <!-- Cross symbol on side -->
+    <rect x="-4" y="-1.5" width="1.2" height="3.5" fill="#DC2626"/>
+    <rect x="-5.1" y="-0.4" width="3.4" height="1.2" fill="#DC2626"/>
+    <!-- Wheels -->
+    <circle cx="-5" cy="4" r="1.5" fill="#374151"/>
+    <circle cx="5" cy="4" r="1.5" fill="#374151"/>
+  </g>
+</svg>
