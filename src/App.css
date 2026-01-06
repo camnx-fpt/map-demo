@@ -42,40 +42,199 @@
 
 .app-container {
   display: flex;
-  height: 100vh;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height for mobile */
   width: 100vw;
   overflow: hidden;
 }
 
 .App {
   display: flex;
-  height: 100vh;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
   width: 100vw;
   background: var(--color-background);
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .app-container,
+  .App {
+    flex-direction: row;
+    height: 100vh;
+  }
 }
 
 .map-wrapper {
   flex: 1;
   position: relative;
+  width: 100%;
   height: 100vh;
+  min-height: 100vh;
   overflow: hidden;
+  touch-action: pan-x pan-y; /* Better touch handling */
+}
+
+/* Use dvh for better mobile support where available */
+@supports (height: 100dvh) {
+  .map-wrapper {
+    height: 100dvh;
+    min-height: 100dvh;
+  }
 }
 
 .map-wrapper .leaflet-container {
-  height: 100vh;
-  width: 100%;
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100% !important;
+  width: 100% !important;
   z-index: 0;
 }
 
-.sidebar {
+@media (min-width: 768px) {
+  .map-wrapper {
+    height: 100vh;
+    min-height: 100vh;
+  }
+}
+
+/* ============================================================================
+   DESKTOP SIDEBAR
+   ============================================================================ */
+
+.desktop-sidebar {
   width: 360px;
   background: var(--color-surface);
   box-shadow: var(--shadow-md);
   padding: 24px;
   overflow-y: auto;
-  z-index: 1000;
   border-right: 1px solid var(--color-border);
+  height: 100vh;
 }
+
+/* ============================================================================
+   MOBILE SIDEBAR - Bottom Sheet
+   ============================================================================ */
+
+.mobile-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  animation: fadeIn 0.3s ease;
+}
+
+.mobile-sidebar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--color-surface);
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease;
+}
+
+.mobile-sidebar-header {
+  padding: 12px 16px 0;
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.mobile-sidebar-handle {
+  width: 40px;
+  height: 4px;
+  background: var(--color-border);
+  border-radius: 2px;
+  margin: 0 auto 12px;
+}
+
+.mobile-sidebar-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+}
+
+.mobile-sidebar-title-row h2 {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.mobile-sidebar-close {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: var(--color-surface-hover);
+  color: var(--color-text-primary);
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  touch-action: manipulation;
+  line-height: 1;
+}
+
+.mobile-sidebar-close:active {
+  background: var(--color-border);
+}
+
+.mobile-sidebar-scroll {
+  flex: 1;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding: 16px;
+  padding-bottom: 80px;
+}
+
+/* Mobile toggle button */
+.sidebar-toggle-mobile {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  font-size: 24px;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+  cursor: pointer;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  touch-action: manipulation;
+}
+
+.sidebar-toggle-mobile:active {
+  transform: scale(0.95);
+}
+
+/* Desktop sidebar - remove old media query */
 
 .sidebar h2 {
   margin: 0 0 24px 0;
@@ -446,6 +605,15 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+  touch-action: manipulation;
+}
+
+@media (max-width: 480px) {
+  .filter-button {
+    min-width: 50px;
+    padding: 12px 10px;
+    font-size: 12px;
+  }
 }
 
 .filter-button:hover:not(:disabled) {
@@ -755,22 +923,17 @@ button, input, label {
   }
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
+/* Mobile-first responsive design */
+@media (min-width: 768px) {
   .App {
-    flex-direction: column;
+    flex-direction: row;
   }
-  
-  .sidebar {
-    width: 100%;
-    max-height: 45vh;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
-    border-right: none;
-    border-top: 1px solid #E2E8F0;
-  }
-  
-  .map-container {
-    height: 55vh;
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 767px) {
+  .search-box {
+    margin-bottom: 16px;
   }
   
   .search-box::before {
@@ -779,15 +942,88 @@ button, input, label {
   
   .search-box input {
     padding-left: 16px;
+    font-size: 16px; /* Prevents zoom on iOS */
   }
   
-  .legend {
+  .simulation-control {
+    margin-bottom: 16px;
+    padding: 16px;
+  }
+  
+  .people-count-filter {
     margin-top: 16px;
     padding: 12px;
   }
   
+  .info {
+    margin-top: 16px;
+    padding: 12px;
+  }
+  
+  .legend {
+    margin-top: 12px;
+    padding: 12px;
+  }
+  
+  .legend h3 {
+    font-size: 11px;
+    margin-bottom: 8px;
+  }
+  
   .legend-item {
     margin-bottom: 6px;
+    gap: 6px;
+    font-size: 12px;
+  }
+  
+  /* Touch-friendly buttons */
+  .simulation-button,
+  .reset-button,
+  .settings-button {
+    min-height: 44px; /* Apple HIG minimum touch target */
+    font-size: 14px;
+  }
+  
+  .speed-button {
+    min-height: 40px;
+    min-width: 60px;
+  }
+  
+  /* Compact header */
+  .sidebar h2 {
+    font-size: 20px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+  }
+  
+  .sidebar h3 {
+    font-size: 12px;
+    margin: 12px 0 8px 0;
+  }
+  
+  /* Reduce spacing on mobile */
+  .control-row {
+    gap: 8px;
+  }
+  
+  .filters {
+    margin-bottom: 12px;
+  }
+  
+  /* Stack filter checkboxes vertically on very small screens */
+  @media (max-width: 480px) {
+    .filters label {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      min-height: 44px;
+    }
+    
+    .filters input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-right: 12px;
+    }
   }
 }
 
@@ -826,6 +1062,41 @@ button, input, label {
   max-height: 90vh;
   overflow: hidden;
   animation: slideUp 0.3s ease;
+}
+
+@media (max-width: 767px) {
+  .modal-content {
+    width: 95%;
+    max-height: 85vh;
+    border-radius: 12px;
+  }
+  
+  .modal-header {
+    padding: 16px;
+  }
+  
+  .modal-header h2 {
+    font-size: 18px;
+  }
+  
+  .modal-body {
+    padding: 16px;
+    max-height: calc(85vh - 150px);
+  }
+  
+  .setting-row {
+    gap: 12px;
+  }
+  
+  .modal-footer {
+    padding: 16px;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .modal-footer button {
+    width: 100%;
+  }
 }
 
 @keyframes slideUp {

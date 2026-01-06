@@ -35,7 +35,7 @@ const Sidebar = ({
     { value: 3, label: '3x' }
   ];
   return (
-    <div className="sidebar">
+    <>
       <h2>日本病院マップ</h2>
       
       {/* Simulation Control */}
@@ -187,7 +187,7 @@ const Sidebar = ({
           <span>低</span>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
