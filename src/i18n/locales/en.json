@@ -1,0 +1,80 @@
+{
+  "app": {
+    "title": "Japan Hospital Map",
+    "close": "Close"
+  },
+  "simulation": {
+    "start": "Start Simulation",
+    "stop": "Stop",
+    "reset": "Reset",
+    "settings": "Settings",
+    "speed": "Speed"
+  },
+  "search": {
+    "placeholder": "Search hospitals or ambulances..."
+  },
+  "layers": {
+    "title": "Layers",
+    "hospitals": "Hospitals",
+    "ambulances": "Ambulances",
+    "discoveryPoints": "Discovery Points",
+    "routes": "Routes",
+    "enRouteOnly": "En Route Only",
+    "idleOnly": "Idle Only"
+  },
+  "filter": {
+    "peopleCount": "People Count Filter",
+    "all": "All",
+    "people": "people"
+  },
+  "stats": {
+    "title": "Statistics",
+    "hospitals": "Hospitals",
+    "ambulances": "Ambulances",
+    "discoveryPoints": "Discovery Points",
+    "activeRoutes": "Active Routes",
+    "total": "Total Ambulances"
+  },
+  "priority": {
+    "title": "Route Priority",
+    "label": "Priority",
+    "critical": "Critical",
+    "high": "High",
+    "medium": "Medium",
+    "low": "Low"
+  },
+  "status": {
+    "enRoute": "En Route",
+    "idle": "Idle",
+    "vehicles": "vehicles"
+  },
+  "settings": {
+    "title": "Simulation Settings",
+    "ambulancesPerHospital": "Ambulances Per Hospital",
+    "ambulancesPerHospitalDesc": "Number of ambulances assigned to each hospital",
+    "independentAmbulances": "Independent Ambulances",
+    "independentAmbulancesDesc": "Ambulances not assigned to any hospital",
+    "maxIncidents": "Max Concurrent Incidents",
+    "maxIncidentsDesc": "Maximum number of simultaneous incidents allowed",
+    "minWaitTime": "Min Wait Time",
+    "minWaitTimeDesc": "Minimum wait time before incident occurs",
+    "maxWaitTime": "Max Wait Time",
+    "maxWaitTimeDesc": "Maximum wait time before incident occurs",
+    "incidentInterval": "Incident Interval",
+    "resetToDefault": "Reset to Default",
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+  "units": {
+    "vehicles": "vehicles",
+    "incidents": "incidents",
+    "seconds": "sec"
+  },
+  "map": {
+    "reliefMap": "Relief Map",
+    "paleMap": "Pale Map",
+    "standardMap": "Standard Map",
+    "satelliteMap": "Satellite",
+    "osmMap": "OpenStreetMap"
+  }
+}

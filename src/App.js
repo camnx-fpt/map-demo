@@ -15,6 +15,7 @@ import { hospitals } from "./data/mockData";
 import Sidebar from "./components/Sidebar";
 import MobileSidebar from "./components/MobileSidebar";
 import SettingsModal from "./components/SettingsModal";
+import LanguageSwitcher from "./components/LanguageSwitcher";
 import MapLayers from "./components/MapLayers";
 import HospitalMarker from "./components/HospitalMarker";
 import AmbulanceMarker from "./components/AmbulanceMarker";
@@ -503,6 +504,8 @@ function App() {
         settings={settings}
         onSave={handleSaveSettings}
       />
+
+      <LanguageSwitcher />
 
       <div className="map-wrapper">
         <MapContainer

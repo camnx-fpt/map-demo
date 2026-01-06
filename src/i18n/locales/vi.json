@@ -1,0 +1,80 @@
+{
+  "app": {
+    "title": "Bản Đồ Bệnh Viện Nhật Bản",
+    "close": "Đóng"
+  },
+  "simulation": {
+    "start": "Bắt Đầu Mô Phỏng",
+    "stop": "Dừng",
+    "reset": "Đặt Lại",
+    "settings": "Cài Đặt",
+    "speed": "Tốc Độ"
+  },
+  "search": {
+    "placeholder": "Tìm bệnh viện hoặc xe cứu thương..."
+  },
+  "layers": {
+    "title": "Lớp Bản Đồ",
+    "hospitals": "Bệnh Viện",
+    "ambulances": "Xe Cứu Thương",
+    "discoveryPoints": "Điểm Phát Hiện",
+    "routes": "Tuyến Đường",
+    "enRouteOnly": "Chỉ Đang Di Chuyển",
+    "idleOnly": "Chỉ Đang Chờ"
+  },
+  "filter": {
+    "peopleCount": "Lọc Theo Số Người",
+    "all": "Tất Cả",
+    "people": "người"
+  },
+  "stats": {
+    "title": "Thống Kê",
+    "hospitals": "Bệnh Viện",
+    "ambulances": "Xe Cứu Thương",
+    "discoveryPoints": "Điểm Phát Hiện",
+    "activeRoutes": "Tuyến Đang Hoạt Động",
+    "total": "Tổng Số Xe Cứu Thương"
+  },
+  "priority": {
+    "title": "Độ Ưu Tiên",
+    "label": "Ưu Tiên",
+    "critical": "Khẩn Cấp",
+    "high": "Cao",
+    "medium": "Trung Bình",
+    "low": "Thấp"
+  },
+  "status": {
+    "enRoute": "Đang Di Chuyển",
+    "idle": "Đang Chờ",
+    "vehicles": "xe"
+  },
+  "settings": {
+    "title": "Cài Đặt Mô Phỏng",
+    "ambulancesPerHospital": "Xe Cứu Thương Mỗi Bệnh Viện",
+    "ambulancesPerHospitalDesc": "Số xe cứu thương được phân cho mỗi bệnh viện",
+    "independentAmbulances": "Xe Cứu Thương Độc Lập",
+    "independentAmbulancesDesc": "Xe cứu thương không thuộc bệnh viện nào",
+    "maxIncidents": "Số Sự Cố Đồng Thời Tối Đa",
+    "maxIncidentsDesc": "Số lượng sự cố có thể xảy ra cùng lúc tối đa",
+    "minWaitTime": "Thời Gian Chờ Tối Thiểu",
+    "minWaitTimeDesc": "Thời gian chờ tối thiểu trước khi sự cố xảy ra",
+    "maxWaitTime": "Thời Gian Chờ Tối Đa",
+    "maxWaitTimeDesc": "Thời gian chờ tối đa trước khi sự cố xảy ra",
+    "incidentInterval": "Khoảng Thời Gian Giữa Sự Cố",
+    "resetToDefault": "Khôi Phục Mặc Định",
+    "cancel": "Hủy",
+    "save": "Lưu"
+  },
+  "units": {
+    "vehicles": "xe",
+    "incidents": "sự cố",
+    "seconds": "giây"
+  },
+  "map": {
+    "reliefMap": "Bản Đồ Độ Cao",
+    "paleMap": "Bản Đồ Nhạt",
+    "standardMap": "Bản Đồ Tiêu Chuẩn",
+    "satelliteMap": "Vệ Tinh",
+    "osmMap": "OpenStreetMap"
+  }
+}

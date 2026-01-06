@@ -1418,3 +1418,52 @@ label {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* Language Switcher */
+.language-switcher {
+  position: fixed;
+  top: 20px;
+  right: calc((100vw - 220px) / 2);
+  display: flex;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 4px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  z-index: 1001;
+}
+
+.lang-button {
+  padding: 4px 8px;
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  opacity: 0.6;
+}
+
+.lang-button:hover {
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+
+.lang-button.active {
+  background: var(--color-primary);
+  opacity: 1;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+@media (max-width: 767px) {
+  .language-switcher {
+    right: calc((100vw - 160px) / 2);
+  }
+  
+  .lang-button {
+    font-size: 18px;
+  }
+}

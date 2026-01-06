@@ -4,9 +4,11 @@
  */
 
 import React, { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 import { SIMULATION_DEFAULTS } from "../config/constants";
 
 const SettingsModal = ({ isOpen, onClose, settings, onSave }) => {
+  const { t } = useTranslation();
   const [localSettings, setLocalSettings] = useState(settings);
 
   useEffect(() => {
@@ -35,7 +37,7 @@ const SettingsModal = ({ isOpen, onClose, settings, onSave }) => {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2>シミュレーション設定</h2>
+          <h2>{t('settings.title')}</h2>
           <button className="modal-close" onClick={onClose}>
             ×
           </button>
@@ -46,9 +48,9 @@ const SettingsModal = ({ isOpen, onClose, settings, onSave }) => {
             {/* Ambulances per Hospital */}
             <div className="setting-row">
               <label className="setting-label">
-                <span className="setting-title">病院ごとの救急車数</span>
+                <span className="setting-title">{t('settings.ambulancesPerHospital')}</span>
                 <span className="setting-description">
-                  各病院に配置される救急車の台数
+                  {t('settings.ambulancesPerHospitalDesc')}
                 </span>
               </label>
               <div className="setting-input-group">
@@ -62,16 +64,16 @@ const SettingsModal = ({ isOpen, onClose, settings, onSave }) => {
                   }
                   className="setting-input"
                 />
-                <span className="setting-unit">台</span>
+                <span className="setting-unit">{t('units.vehicles')}</span>
               </div>
             </div>
 
             {/* Independent Ambulances */}
             <div className="setting-row">
               <label className="setting-label">
-                <span className="setting-title">独立救急車数</span>
+                <span className="setting-title">{t('settings.independentAmbulances')}</span>
                 <span className="setting-description">
-                  病院に所属しない独立した救急車
+                  {t('settings.independentAmbulancesDesc')}
                 </span>
               </label>
               <div className="setting-input-group">
@@ -85,16 +87,16 @@ const SettingsModal = ({ isOpen, onClose, settings, onSave }) => {
                   }
                   className="setting-input"
                 />
-                <span className="setting-unit">台</span>
+                <span className="setting-unit">{t('units.vehicles')}</span>
               </div>
             </div>
 
             {/* Max Incidents */}
             <div className="setting-row">
               <label className="setting-label">
-                <span className="setting-title">最大同時事故数</span>
+                <span className="setting-title">{t('settings.maxIncidents')}</span>
                 <span className="setting-description">
-                  同時に発生可能な事故の上限
+                  {t('settings.maxIncidentsDesc')}
                 </span>
               </label>
               <div className="setting-input-group">
@@ -106,16 +108,16 @@ const SettingsModal = ({ isOpen, onClose, settings, onSave }) => {
                   onChange={(e) => handleChange("maxIncidents", e.target.value)}
                   className="setting-input"
                 />
-                <span className="setting-unit">件</span>
+                <span className="setting-unit">{t('units.incidents')}</span>
               </div>
             </div>
 
             {/* Min Idle Time */}
             <div className="setting-row">
               <label className="setting-label">
-                <span className="setting-title">待機時間（最小）</span>
+                <span className="setting-title">{t('settings.minWaitTime')}</span>
                 <span className="setting-description">
-                  事故発生までの最小待機時間
+                  {t('settings.minWaitTimeDesc')}
                 </span>
               </label>
               <div className="setting-input-group">
@@ -127,16 +129,16 @@ const SettingsModal = ({ isOpen, onClose, settings, onSave }) => {
                   onChange={(e) => handleChange("minIdleTime", e.target.value)}
                   className="setting-input"
                 />
-                <span className="setting-unit">秒</span>
+                <span className="setting-unit">{t('units.seconds')}</span>
               </div>
             </div>
 
             {/* Max Idle Time */}
             <div className="setting-row">
               <label className="setting-label">
-                <span className="setting-title">待機時間（最大）</span>
+                <span className="setting-title">{t('settings.maxWaitTime')}</span>
                 <span className="setting-description">
-                  事故発生までの最大待機時間
+                  {t('settings.maxWaitTimeDesc')}
                 </span>
               </label>
               <div className="setting-input-group">
@@ -148,24 +150,24 @@ const SettingsModal = ({ isOpen, onClose, settings, onSave }) => {
                   onChange={(e) => handleChange("maxIdleTime", e.target.value)}
                   className="setting-input"
                 />
-                <span className="setting-unit">秒</span>
+                <span className="setting-unit">{t('units.seconds')}</span>
               </div>
             </div>
 
             {/* Summary */}
             <div className="setting-summary">
               <div className="summary-item">
-                <span className="summary-label">総救急車数:</span>
+                <span className="summary-label">{t('stats.total')}:</span>
                 <span className="summary-value">
                   {localSettings.ambulancesPerHospital * 10 +
-                    localSettings.independentAmbulances}
-                  台
+                    localSettings.independentAmbulances}{' '}
+                  {t('units.vehicles')}
                 </span>
               </div>
               <div className="summary-item">
-                <span className="summary-label">事故発生間隔:</span>
+                <span className="summary-label">{t('settings.incidentInterval')}:</span>
                 <span className="summary-value">
-                  {localSettings.minIdleTime}〜{localSettings.maxIdleTime}秒
+                  {localSettings.minIdleTime}〜{localSettings.maxIdleTime}{t('units.seconds')}
                 </span>
               </div>
             </div>
@@ -174,14 +176,14 @@ const SettingsModal = ({ isOpen, onClose, settings, onSave }) => {
 
         <div className="modal-footer">
           <button className="btn-secondary" onClick={handleReset}>
-            デフォルトに戻す
+            {t('settings.resetToDefault')}
           </button>
           <div className="modal-actions">
             <button className="btn-cancel" onClick={onClose}>
-              キャンセル
+              {t('settings.cancel')}
             </button>
             <button className="btn-primary" onClick={handleSave}>
-              保存
+              {t('settings.save')}
             </button>
           </div>
         </div>

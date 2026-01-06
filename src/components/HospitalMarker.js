@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Marker, Popup } from "react-leaflet";
+import { useTranslation } from 'react-i18next';
 import { createHospitalIcon } from "./CustomIcons";
 
 const HospitalMarker = ({ hospital, ambulanceCount, onHover }) => {
+  const { t } = useTranslation();
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseOver = () => {
@@ -33,7 +35,7 @@ const HospitalMarker = ({ hospital, ambulanceCount, onHover }) => {
           <p>{hospital.address}</p>
           {ambulanceCount > 0 && (
             <p>
-              <strong>搬送中:</strong> {ambulanceCount}台
+              <strong>{t('status.enRoute')}</strong> {ambulanceCount}{t('status.vehicles')}
             </p>
           )}
         </div>

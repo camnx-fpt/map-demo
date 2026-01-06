@@ -1,0 +1,80 @@
+{
+  "app": {
+    "title": "日本病院マップ",
+    "close": "閉じる"
+  },
+  "simulation": {
+    "start": "シミュレーション開始",
+    "stop": "停止",
+    "reset": "リセット",
+    "settings": "設定",
+    "speed": "速度"
+  },
+  "search": {
+    "placeholder": "病院または救急車を検索..."
+  },
+  "layers": {
+    "title": "レイヤー",
+    "hospitals": "病院",
+    "ambulances": "救急車",
+    "discoveryPoints": "発見地点",
+    "routes": "ルート",
+    "enRouteOnly": "搬送中のみ",
+    "idleOnly": "待機中のみ"
+  },
+  "filter": {
+    "peopleCount": "人数フィルター",
+    "all": "すべて",
+    "people": "人"
+  },
+  "stats": {
+    "title": "統計",
+    "hospitals": "病院",
+    "ambulances": "救急車",
+    "discoveryPoints": "発見地点",
+    "activeRoutes": "アクティブルート",
+    "total": "総救急車数"
+  },
+  "priority": {
+    "title": "ルート優先度",
+    "label": "優先度",
+    "critical": "緊急",
+    "high": "高",
+    "medium": "中",
+    "low": "低"
+  },
+  "status": {
+    "enRoute": "搬送中",
+    "idle": "待機中",
+    "vehicles": "台"
+  },
+  "settings": {
+    "title": "シミュレーション設定",
+    "ambulancesPerHospital": "病院ごとの救急車数",
+    "ambulancesPerHospitalDesc": "各病院に配置される救急車の台数",
+    "independentAmbulances": "独立救急車数",
+    "independentAmbulancesDesc": "病院に所属しない独立した救急車",
+    "maxIncidents": "最大同時事故数",
+    "maxIncidentsDesc": "同時に発生可能な事故の上限",
+    "minWaitTime": "待機時間（最小）",
+    "minWaitTimeDesc": "事故発生までの最小待機時間",
+    "maxWaitTime": "待機時間（最大）",
+    "maxWaitTimeDesc": "事故発生までの最大待機時間",
+    "incidentInterval": "事故発生間隔",
+    "resetToDefault": "デフォルトに戻す",
+    "cancel": "キャンセル",
+    "save": "保存"
+  },
+  "units": {
+    "vehicles": "台",
+    "incidents": "件",
+    "seconds": "秒"
+  },
+  "map": {
+    "reliefMap": "色別標高図 (Relief Map)",
+    "paleMap": "淡色地図 (Pale)",
+    "standardMap": "標準地図 (Standard)",
+    "satelliteMap": "写真 (Satellite)",
+    "osmMap": "OpenStreetMap"
+  }
+}

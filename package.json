@@ -4,9 +4,11 @@
   "private": true,
   "homepage": "https://camnx-fpt.github.io/test-map",
   "dependencies": {
+    "i18next": "^25.7.3",
     "leaflet": "^1.9.4",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
+    "react-i18next": "^16.5.1",
     "react-leaflet": "^4.2.1",
     "react-scripts": "5.0.1"
   },

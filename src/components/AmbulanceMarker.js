@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Marker, Popup } from "react-leaflet";
+import { useTranslation } from 'react-i18next';
 import { createAmbulanceIcon } from "./CustomIcons";
 
 const AmbulanceMarker = ({ ambulance, relatedRoute, onHover }) => {
+  const { t } = useTranslation();
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseOver = () => {
@@ -36,16 +38,16 @@ const AmbulanceMarker = ({ ambulance, relatedRoute, onHover }) => {
           </p>
           <p>
             <strong>状態:</strong>{" "}
-            {ambulance.status === "en_route" ? "搬送中" : "待機中"}
+            {ambulance.status === "en_route" ? t('status.enRoute') : t('status.idle')}
           </p>
           {relatedRoute && (
             <p>
-              <strong>優先度:</strong>{" "}
+              <strong>{t('priority.label')}</strong>{" "}
               <span className={`route-badge ${relatedRoute.priority}`}>
-                {relatedRoute.priority === "critical" && "緊急"}
-                {relatedRoute.priority === "high" && "高"}
-                {relatedRoute.priority === "medium" && "中"}
-                {relatedRoute.priority === "low" && "低"}
+                {relatedRoute.priority === "critical" && t('priority.critical')}
+                {relatedRoute.priority === "high" && t('priority.high')}
+                {relatedRoute.priority === "medium" && t('priority.medium')}
+                {relatedRoute.priority === "low" && t('priority.low')}
               </span>
             </p>
           )}

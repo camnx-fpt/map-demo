@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Marker, Popup } from "react-leaflet";
+import { useTranslation } from 'react-i18next';
 import { createDiscoveryIcon } from "./CustomIcons";
 
 const DiscoveryMarker = ({ point, relatedRoute, onHover }) => {
+  const { t } = useTranslation();
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseOver = () => {
@@ -40,16 +42,16 @@ const DiscoveryMarker = ({ point, relatedRoute, onHover }) => {
             <strong>発生時刻:</strong> {point.time}
           </p>
           <p>
-            <strong>人数:</strong> {peopleCount}人
+            <strong>{t('filter.peopleCount')}</strong> {peopleCount}{t('filter.people')}
           </p>
           {relatedRoute && (
             <p>
-              <strong>優先度:</strong>{" "}
+              <strong>{t('priority.label')}</strong>{" "}
               <span className={`route-badge ${relatedRoute.priority}`}>
-                {relatedRoute.priority === "critical" && "緊急"}
-                {relatedRoute.priority === "high" && "高"}
-                {relatedRoute.priority === "medium" && "中"}
-                {relatedRoute.priority === "low" && "低"}
+                {relatedRoute.priority === "critical" && t('priority.critical')}
+                {relatedRoute.priority === "high" && t('priority.high')}
+                {relatedRoute.priority === "medium" && t('priority.medium')}
+                {relatedRoute.priority === "low" && t('priority.low')}
               </span>
             </p>
           )}
