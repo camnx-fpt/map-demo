@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 const MobileSidebar = ({ 
   isOpen,
@@ -37,6 +37,60 @@ const MobileSidebar = ({
     { value: 3, label: '3x' }
   ];
 
+  // Swipe to close gesture
+  const [startY, setStartY] = useState(0);
+  const [currentY, setCurrentY] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const headerRef = useRef(null);
+
+  const handleTouchStart = (e) => {
+    // Only track if touch starts on header area
+    setStartY(e.touches[0].clientY);
+    setCurrentY(e.touches[0].clientY);
+    setIsDragging(true);
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isDragging) return;
+    
+    const newY = e.touches[0].clientY;
+    const deltaY = newY - startY;
+    
+    // Only prevent default if dragging down (closing gesture)
+    if (deltaY > 0) {
+      e.preventDefault();
+    }
+    
+    setCurrentY(newY);
+  };
+
+  const handleTouchEnd = (e) => {
+    if (!isDragging) return;
+    
+    const deltaY = currentY - startY;
+    
+    // If swiped down more than 100px, close
+    if (deltaY > 100) {
+      onClose();
+    }
+    
+    setIsDragging(false);
+    setStartY(0);
+    setCurrentY(0);
+  };
+
+  // Prevent body scroll when sidebar is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return (
@@ -45,9 +99,23 @@ const MobileSidebar = ({
       <div className="mobile-backdrop" onClick={onClose} />
       
       {/* Bottom Sheet */}
-      <div className="mobile-sidebar">
-        {/* Header with close button */}
-        <div className="mobile-sidebar-header">
+      <div 
+        className="mobile-sidebar"
+        style={{
+          transform: isDragging && currentY > startY 
+            ? `translateY(${currentY - startY}px)` 
+            : 'translateY(0)',
+          transition: isDragging ? 'none' : 'transform 0.3s ease'
+        }}
+      >
+        {/* Header with close button and swipe handle */}
+        <div 
+          className="mobile-sidebar-header"
+          ref={headerRef}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           <div className="mobile-sidebar-handle" />
           <div className="mobile-sidebar-title-row">
             <h2>日本病院マップ</h2>

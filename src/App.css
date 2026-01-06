@@ -69,19 +69,21 @@
 
 .map-wrapper {
   flex: 1;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   width: 100%;
   height: 100vh;
-  min-height: 100vh;
   overflow: hidden;
-  touch-action: pan-x pan-y; /* Better touch handling */
+  touch-action: pan-x pan-y;
 }
 
 /* Use dvh for better mobile support where available */
 @supports (height: 100dvh) {
   .map-wrapper {
     height: 100dvh;
-    min-height: 100dvh;
   }
 }
 
@@ -98,6 +100,7 @@
 
 @media (min-width: 768px) {
   .map-wrapper {
+    position: relative;
     height: 100vh;
     min-height: 100vh;
   }
@@ -145,20 +148,34 @@
   display: flex;
   flex-direction: column;
   animation: slideUp 0.3s ease;
+  touch-action: none; /* Handle touch ourselves */
 }
 
 .mobile-sidebar-header {
-  padding: 12px 16px 0;
+  padding: 8px 16px 0;
   border-bottom: 1px solid var(--color-border);
   flex-shrink: 0;
+  cursor: grab;
+  user-select: none;
+  touch-action: pan-y; /* Allow vertical swipe */
+  -webkit-user-select: none;
+}
+
+.mobile-sidebar-header:active {
+  cursor: grabbing;
 }
 
 .mobile-sidebar-handle {
   width: 40px;
-  height: 4px;
+  height: 5px;
   background: var(--color-border);
-  border-radius: 2px;
-  margin: 0 auto 12px;
+  border-radius: 3px;
+  margin: 0 auto 8px;
+  transition: background 0.2s;
+}
+
+.mobile-sidebar-header:active .mobile-sidebar-handle {
+  background: var(--color-primary);
 }
 
 .mobile-sidebar-title-row {
@@ -980,13 +997,32 @@ button, input, label {
   .simulation-button,
   .reset-button,
   .settings-button {
-    min-height: 44px; /* Apple HIG minimum touch target */
-    font-size: 14px;
+    min-height: 48px; /* Better touch target */
+    font-size: 15px;
+    padding: 14px 20px;
   }
   
   .speed-button {
-    min-height: 40px;
-    min-width: 60px;
+    min-height: 44px;
+    min-width: 70px;
+    font-size: 14px;
+  }
+  
+  .filter-button {
+    min-height: 44px;
+    padding: 12px 16px;
+  }
+  
+  /* Larger touch targets for checkboxes */
+  .filters label {
+    min-height: 48px;
+    padding: 14px 12px;
+  }
+  
+  .filters input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+    margin-right: 14px;
   }
   
   /* Compact header */
@@ -1067,7 +1103,8 @@ button, input, label {
 @media (max-width: 767px) {
   .modal-content {
     width: 95%;
-    max-height: 85vh;
+    max-width: 95%;
+    max-height: 90vh;
     border-radius: 12px;
   }
   
@@ -1079,13 +1116,10 @@ button, input, label {
     font-size: 18px;
   }
   
-  .modal-body {
-    padding: 16px;
-    max-height: calc(85vh - 150px);
-  }
-  
   .setting-row {
     gap: 12px;
+    flex-direction: column;
+    align-items: flex-start;
   }
   
   .modal-footer {
@@ -1096,6 +1130,7 @@ button, input, label {
   
   .modal-footer button {
     width: 100%;
+    min-height: 44px;
   }
 }
 
@@ -1152,6 +1187,15 @@ button, input, label {
   padding: 24px;
   max-height: calc(90vh - 180px);
   overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 767px) {
+  .modal-body {
+    padding: 16px;
+    max-height: calc(85vh - 240px);
+  }
 }
 
 .settings-grid {
