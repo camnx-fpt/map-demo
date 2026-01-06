@@ -3,8 +3,8 @@
  * Professional healthcare-themed markers with SVG icons
  */
 
-import L from 'leaflet';
-import { getSeverityByCount, COLORS } from '../config/colors';
+import L from "leaflet";
+import { getSeverityByCount, COLORS } from "../config/colors";
 
 /**
  * Create hospital marker icon with badge
@@ -14,10 +14,10 @@ import { getSeverityByCount, COLORS } from '../config/colors';
  */
 export const createHospitalIcon = (ambulanceCount, isHovered = false) => {
   const opacity = isHovered ? 1 : 0.7;
-  const scale = isHovered ? 'scale(1.05)' : 'scale(1)';
-  
+  const scale = isHovered ? "scale(1.05)" : "scale(1)";
+
   return L.divIcon({
-    className: 'custom-hospital-icon',
+    className: "custom-hospital-icon",
     html: `
       <div style="opacity: ${opacity}; transition: all 0.2s ease; transform: ${scale};">
         <div style="
@@ -37,7 +37,9 @@ export const createHospitalIcon = (ambulanceCount, isHovered = false) => {
             <path d="M2 12l10 5 10-5"/>
           </svg>
         </div>
-        ${ambulanceCount > 0 ? `
+        ${
+          ambulanceCount > 0
+            ? `
           <div style="
             position: absolute;
             top: -4px;
@@ -51,12 +53,14 @@ export const createHospitalIcon = (ambulanceCount, isHovered = false) => {
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
             border: 2px solid white;
           ">${ambulanceCount}</div>
-        ` : ''}
+        `
+            : ""
+        }
       </div>
     `,
     iconSize: [40, 40],
     iconAnchor: [20, 20],
-    popupAnchor: [0, -20]
+    popupAnchor: [0, -20],
   });
 };
 
@@ -67,12 +71,13 @@ export const createHospitalIcon = (ambulanceCount, isHovered = false) => {
  * @returns {L.DivIcon} Leaflet div icon
  */
 export const createAmbulanceIcon = (status, isHovered = false) => {
-  const color = status === 'idle' ? COLORS.ambulance.idle : COLORS.ambulance.enRoute;
+  const color =
+    status === "idle" ? COLORS.ambulance.idle : COLORS.ambulance.enRoute;
   const opacity = isHovered ? 1 : 0.7;
-  const scale = isHovered ? 'scale(1.1)' : 'scale(1)';
-  
+  const scale = isHovered ? "scale(1.1)" : "scale(1)";
+
   return L.divIcon({
-    className: 'custom-ambulance-icon',
+    className: "custom-ambulance-icon",
     html: `
       <div style="opacity: ${opacity}; transition: all 0.2s ease; transform: ${scale};">
         <div style="
@@ -99,7 +104,7 @@ export const createAmbulanceIcon = (status, isHovered = false) => {
     `,
     iconSize: [36, 36],
     iconAnchor: [18, 18],
-    popupAnchor: [0, -18]
+    popupAnchor: [0, -18],
   });
 };
 
@@ -112,13 +117,13 @@ export const createAmbulanceIcon = (status, isHovered = false) => {
 export const createDiscoveryIcon = (peopleCount, isHovered = false) => {
   const config = getSeverityByCount(peopleCount);
   const opacity = isHovered ? 1 : 0.7;
-  const scale = isHovered ? 'scale(1.15)' : 'scale(1)';
-  
+  const scale = isHovered ? "scale(1.15)" : "scale(1)";
+
   // Display format: actual number + range label
   const displayText = `${peopleCount}人 (${config.label})`;
-  
+
   return L.divIcon({
-    className: 'custom-discovery-icon',
+    className: "custom-discovery-icon",
     html: `
       <div style="opacity: ${opacity}; transition: all 0.2s ease; transform: ${scale};">
         <div style="
@@ -156,7 +161,7 @@ export const createDiscoveryIcon = (peopleCount, isHovered = false) => {
     `,
     iconSize: [44, 44],
     iconAnchor: [22, 22],
-    popupAnchor: [0, -34]
+    popupAnchor: [0, -34],
   });
 };
 

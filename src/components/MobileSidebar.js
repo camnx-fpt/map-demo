@@ -1,12 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 
-const MobileSidebar = ({ 
+const MobileSidebar = ({
   isOpen,
   onClose,
-  searchTerm, 
-  onSearchChange, 
-  filters, 
-  onFilterChange, 
+  searchTerm,
+  onSearchChange,
+  filters,
+  onFilterChange,
   peopleCountFilter,
   onPeopleCountChange,
   showOnlyEnRoute,
@@ -19,22 +19,22 @@ const MobileSidebar = ({
   onSpeedChange,
   onReset,
   onOpenSettings,
-  stats
+  stats,
 }) => {
   const peopleCountOptions = [
-    { value: 'all', label: 'すべて' },
-    { value: '10+', label: '10+' },
-    { value: '5-9', label: '5~9' },
-    { value: '3-4', label: '3~4' },
-    { value: '2', label: '2' },
-    { value: '1', label: '1' },
-    { value: '0', label: '0' }
+    { value: "all", label: "すべて" },
+    { value: "10+", label: "10+" },
+    { value: "5-9", label: "5~9" },
+    { value: "3-4", label: "3~4" },
+    { value: "2", label: "2" },
+    { value: "1", label: "1" },
+    { value: "0", label: "0" },
   ];
-  
+
   const speedOptions = [
-    { value: 1, label: '1x' },
-    { value: 2, label: '2x' },
-    { value: 3, label: '3x' }
+    { value: 1, label: "1x" },
+    { value: 2, label: "2x" },
+    { value: 3, label: "3x" },
   ];
 
   // Swipe to close gesture
@@ -52,28 +52,28 @@ const MobileSidebar = ({
 
   const handleTouchMove = (e) => {
     if (!isDragging) return;
-    
+
     const newY = e.touches[0].clientY;
     const deltaY = newY - startY;
-    
+
     // Only prevent default if dragging down (closing gesture)
     if (deltaY > 0) {
       e.preventDefault();
     }
-    
+
     setCurrentY(newY);
   };
 
   const handleTouchEnd = (e) => {
     if (!isDragging) return;
-    
+
     const deltaY = currentY - startY;
-    
+
     // If swiped down more than 100px, close
     if (deltaY > 100) {
       onClose();
     }
-    
+
     setIsDragging(false);
     setStartY(0);
     setCurrentY(0);
@@ -82,12 +82,12 @@ const MobileSidebar = ({
   // Prevent body scroll when sidebar is open
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     }
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     };
   }, [isOpen]);
 
@@ -97,19 +97,20 @@ const MobileSidebar = ({
     <>
       {/* Backdrop */}
       <div className="mobile-backdrop" onClick={onClose} />
-      
+
       {/* Bottom Sheet */}
-      <div 
+      <div
         className="mobile-sidebar"
         style={{
-          transform: isDragging && currentY > startY 
-            ? `translateY(${currentY - startY}px)` 
-            : 'translateY(0)',
-          transition: isDragging ? 'none' : 'transform 0.3s ease'
+          transform:
+            isDragging && currentY > startY
+              ? `translateY(${currentY - startY}px)`
+              : "translateY(0)",
+          transition: isDragging ? "none" : "transform 0.3s ease",
         }}
       >
         {/* Header with close button and swipe handle */}
-        <div 
+        <div
           className="mobile-sidebar-header"
           ref={headerRef}
           onTouchStart={handleTouchStart}
@@ -119,7 +120,7 @@ const MobileSidebar = ({
           <div className="mobile-sidebar-handle" />
           <div className="mobile-sidebar-title-row">
             <h2>日本病院マップ</h2>
-            <button 
+            <button
               className="mobile-sidebar-close"
               onClick={onClose}
               aria-label="閉じる"
@@ -133,22 +134,22 @@ const MobileSidebar = ({
         <div className="mobile-sidebar-scroll">
           {/* Simulation Control */}
           <div className="simulation-control">
-            <button 
-              className={`simulation-button ${isSimulating ? 'stop' : 'start'}`}
+            <button
+              className={`simulation-button ${isSimulating ? "stop" : "start"}`}
               onClick={onToggleSimulation}
             >
-              {isSimulating ? '⏸️ 停止' : '▶️ シミュレーション開始'}
+              {isSimulating ? "⏸️ 停止" : "▶️ シミュレーション開始"}
             </button>
-            
+
             <div className="control-row">
-              <button 
+              <button
                 className="reset-button"
                 onClick={onReset}
                 disabled={isSimulating}
               >
                 🔄 リセット
               </button>
-              <button 
+              <button
                 className="settings-button"
                 onClick={onOpenSettings}
                 disabled={isSimulating}
@@ -161,10 +162,10 @@ const MobileSidebar = ({
               <div className="speed-control">
                 <span className="speed-label">速度:</span>
                 <div className="speed-buttons">
-                  {speedOptions.map(option => (
+                  {speedOptions.map((option) => (
                     <button
                       key={option.value}
-                      className={`speed-button ${simulationSpeed === option.value ? 'active' : ''}`}
+                      className={`speed-button ${simulationSpeed === option.value ? "active" : ""}`}
                       onClick={() => onSpeedChange(option.value)}
                     >
                       {option.label}
@@ -190,7 +191,7 @@ const MobileSidebar = ({
               <input
                 type="checkbox"
                 checked={filters.hospitals}
-                onChange={() => onFilterChange('hospitals')}
+                onChange={() => onFilterChange("hospitals")}
               />
               <span>🏥 病院</span>
             </label>
@@ -198,7 +199,7 @@ const MobileSidebar = ({
               <input
                 type="checkbox"
                 checked={filters.ambulances}
-                onChange={() => onFilterChange('ambulances')}
+                onChange={() => onFilterChange("ambulances")}
               />
               <span>🚑 救急車</span>
             </label>
@@ -224,7 +225,7 @@ const MobileSidebar = ({
               <input
                 type="checkbox"
                 checked={filters.discoveryPoints}
-                onChange={() => onFilterChange('discoveryPoints')}
+                onChange={() => onFilterChange("discoveryPoints")}
               />
               <span>📍 発見地点</span>
             </label>
@@ -232,7 +233,7 @@ const MobileSidebar = ({
               <input
                 type="checkbox"
                 checked={filters.routes}
-                onChange={() => onFilterChange('routes')}
+                onChange={() => onFilterChange("routes")}
               />
               <span>🔗 ルート</span>
             </label>
@@ -241,10 +242,10 @@ const MobileSidebar = ({
           <div className="people-count-filter">
             <h3>人数フィルター</h3>
             <div className="button-group">
-              {peopleCountOptions.map(option => (
+              {peopleCountOptions.map((option) => (
                 <button
                   key={option.value}
-                  className={`filter-button ${peopleCountFilter === option.value ? 'active' : ''}`}
+                  className={`filter-button ${peopleCountFilter === option.value ? "active" : ""}`}
                   onClick={() => onPeopleCountChange(option.value)}
                   disabled={!filters.discoveryPoints}
                 >
@@ -265,19 +266,31 @@ const MobileSidebar = ({
           <div className="legend">
             <h3>ルート優先度</h3>
             <div className="legend-item">
-              <div className="legend-line" style={{ background: '#EA580C' }}></div>
+              <div
+                className="legend-line"
+                style={{ background: "#EA580C" }}
+              ></div>
               <span>緊急</span>
             </div>
             <div className="legend-item">
-              <div className="legend-line" style={{ background: '#DC2626' }}></div>
+              <div
+                className="legend-line"
+                style={{ background: "#DC2626" }}
+              ></div>
               <span>高</span>
             </div>
             <div className="legend-item">
-              <div className="legend-line" style={{ background: '#0891B2' }}></div>
+              <div
+                className="legend-line"
+                style={{ background: "#0891B2" }}
+              ></div>
               <span>中</span>
             </div>
             <div className="legend-item">
-              <div className="legend-line" style={{ background: '#059669' }}></div>
+              <div
+                className="legend-line"
+                style={{ background: "#059669" }}
+              ></div>
               <span>低</span>
             </div>
           </div>

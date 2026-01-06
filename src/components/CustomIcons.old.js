@@ -1,60 +1,60 @@
-import L from 'leaflet';
+import L from "leaflet";
 
 // Get color configuration based on people count
 const getPeopleCountConfig = (count) => {
   if (count >= 10) {
     return {
       gradient: {
-        start: '#374151',
-        end: '#1F2937'
+        start: "#374151",
+        end: "#1F2937",
       },
-      label: '10+',
-      badgeColor: '#1F2937'
+      label: "10+",
+      badgeColor: "#1F2937",
     };
   } else if (count >= 5) {
     return {
       gradient: {
-        start: '#EA580C',
-        end: '#C2410C'
+        start: "#EA580C",
+        end: "#C2410C",
       },
-      label: '5~9',
-      badgeColor: '#C2410C'
+      label: "5~9",
+      badgeColor: "#C2410C",
     };
   } else if (count >= 3) {
     return {
       gradient: {
-        start: '#F59E0B',
-        end: '#D97706'
+        start: "#F59E0B",
+        end: "#D97706",
       },
-      label: '3~4',
-      badgeColor: '#D97706'
+      label: "3~4",
+      badgeColor: "#D97706",
     };
   } else if (count === 2) {
     return {
       gradient: {
-        start: '#FB923C',
-        end: '#F97316'
+        start: "#FB923C",
+        end: "#F97316",
       },
-      label: '2',
-      badgeColor: '#F97316'
+      label: "2",
+      badgeColor: "#F97316",
     };
   } else if (count === 1) {
     return {
       gradient: {
-        start: '#D1D5DB',
-        end: '#9CA3AF'
+        start: "#D1D5DB",
+        end: "#9CA3AF",
       },
-      label: '1',
-      badgeColor: '#9CA3AF'
+      label: "1",
+      badgeColor: "#9CA3AF",
     };
   } else {
     return {
       gradient: {
-        start: '#E5E7EB',
-        end: '#D1D5DB'
+        start: "#E5E7EB",
+        end: "#D1D5DB",
       },
-      label: '0',
-      badgeColor: '#D1D5DB'
+      label: "0",
+      badgeColor: "#D1D5DB",
     };
   }
 };
@@ -111,11 +111,13 @@ const ambulanceSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="40" height=
 // Create icons with opacity support
 export const createAmbulanceIcon = (isHovered = false) => {
   return new L.DivIcon({
-    className: 'custom-marker',
-    html: `<div class="ambulance-marker ${isHovered ? 'hovered' : ''}">${ambulanceSvg}</div>`,
+    className: "custom-marker",
+    html: `<div class="ambulance-marker ${
+      isHovered ? "hovered" : ""
+    }">${ambulanceSvg}</div>`,
     iconSize: [40, 40],
     iconAnchor: [20, 25],
-    popupAnchor: [0, -25]
+    popupAnchor: [0, -25],
   });
 };
 
@@ -145,32 +147,38 @@ export const createDiscoveryIcon = (peopleCount = 0, isHovered = false) => {
       <circle cx="0" cy="0" r="0.8" fill="#ffffff"/>
     </g>
   </svg>`;
-  
+
   return new L.DivIcon({
-    className: 'custom-marker',
+    className: "custom-marker",
     html: `
-      <div class="marker-container ${isHovered ? 'hovered' : ''}">
-        <div class="discovery-marker ${isHovered ? 'hovered' : ''}">${discoverySvg}</div>
-        ${peopleCount > 0 ? `<span class="marker-badge" style="background: linear-gradient(135deg, ${config.badgeColor} 0%, ${config.gradient.end} 100%);">${config.label}</span>` : ''}
+      <div class="marker-container ${isHovered ? "hovered" : ""}">
+        <div class="discovery-marker ${
+          isHovered ? "hovered" : ""
+        }">${discoverySvg}</div>
+        ${
+          peopleCount > 0
+            ? `<span class="marker-badge" style="background: linear-gradient(135deg, ${config.badgeColor} 0%, ${config.gradient.end} 100%);">${config.label}</span>`
+            : ""
+        }
       </div>
     `,
     iconSize: [40, 40],
     iconAnchor: [20, 25],
-    popupAnchor: [0, -25]
+    popupAnchor: [0, -25],
   });
 };
 
 export const createHospitalIconWithBadge = (count, isHovered = false) => {
   return new L.DivIcon({
-    className: 'custom-hospital-marker',
+    className: "custom-hospital-marker",
     html: `
-      <div class="marker-container ${isHovered ? 'hovered' : ''}">
+      <div class="marker-container ${isHovered ? "hovered" : ""}">
         <div class="hospital-marker">${hospitalSvg}</div>
-        ${count > 0 ? `<span class="marker-badge">${count}</span>` : ''}
+        ${count > 0 ? `<span class="marker-badge">${count}</span>` : ""}
       </div>
     `,
     iconSize: [40, 40],
     iconAnchor: [20, 25],
-    popupAnchor: [0, -25]
+    popupAnchor: [0, -25],
   });
 };

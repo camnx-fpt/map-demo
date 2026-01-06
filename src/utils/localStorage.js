@@ -3,7 +3,7 @@
  * Handle persistence of simulation settings
  */
 
-const STORAGE_KEY = 'ems_simulation_settings';
+const STORAGE_KEY = "ems_simulation_settings";
 
 /**
  * Save settings to localStorage
@@ -14,7 +14,7 @@ export const saveSettings = (settings) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
     return true;
   } catch (error) {
-    console.error('Failed to save settings:', error);
+    console.error("Failed to save settings:", error);
     return false;
   }
 };
@@ -34,7 +34,7 @@ export const loadSettings = (defaults) => {
     }
     return defaults;
   } catch (error) {
-    console.error('Failed to load settings:', error);
+    console.error("Failed to load settings:", error);
     return defaults;
   }
 };
@@ -47,7 +47,7 @@ export const clearSettings = () => {
     localStorage.removeItem(STORAGE_KEY);
     return true;
   } catch (error) {
-    console.error('Failed to clear settings:', error);
+    console.error("Failed to clear settings:", error);
     return false;
   }
 };

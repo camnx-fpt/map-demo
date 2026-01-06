@@ -5,37 +5,40 @@
 
 :root {
   /* Primary Healthcare Colors */
-  --color-primary: #2563EB;        /* Medical Blue - Professional, trustworthy */
-  --color-primary-hover: #1D4ED8;
-  --color-emergency: #DC2626;      /* Emergency Red - Urgency */
-  --color-success: #059669;        /* Medical Green - Healthy, safe */
-  --color-warning: #F59E0B;        /* Amber - Caution */
-  
+  --color-primary: #2563eb; /* Medical Blue - Professional, trustworthy */
+  --color-primary-hover: #1d4ed8;
+  --color-emergency: #dc2626; /* Emergency Red - Urgency */
+  --color-success: #059669; /* Medical Green - Healthy, safe */
+  --color-warning: #f59e0b; /* Amber - Caution */
+
   /* Background & Surface */
-  --color-background: #F8FAFC;     /* Slate-50 - Clean, clinical */
-  --color-surface: #FFFFFF;
+  --color-background: #f8fafc; /* Slate-50 - Clean, clinical */
+  --color-surface: #ffffff;
   --color-surface-hover: rgba(37, 99, 235, 0.04);
-  
+
   /* Text Colors */
-  --color-text-primary: #0F172A;   /* Slate-900 - High contrast */
+  --color-text-primary: #0f172a; /* Slate-900 - High contrast */
   --color-text-secondary: #475569; /* Slate-600 - Readable */
-  --color-text-muted: #64748B;     /* Slate-500 - Subtle */
-  
+  --color-text-muted: #64748b; /* Slate-500 - Subtle */
+
   /* Border & Divider */
-  --color-border: #E2E8F0;         /* Slate-200 - Subtle separation */
-  --color-border-focus: #2563EB;
-  
+  --color-border: #e2e8f0; /* Slate-200 - Subtle separation */
+  --color-border-focus: #2563eb;
+
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -1px rgba(15, 23, 42, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.1), 0 4px 6px -2px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08),
+    0 2px 4px -1px rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.1),
+    0 4px 6px -2px rgba(15, 23, 42, 0.05);
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue",
+    Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -278,7 +281,7 @@
 }
 
 .search-box::before {
-  content: '🔍';
+  content: "🔍";
   position: absolute;
   left: 14px;
   top: 50%;
@@ -353,7 +356,7 @@
 }
 
 .info {
-  background: linear-gradient(135deg, var(--color-primary) 0%, #0E7490 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, #0e7490 100%);
   padding: 20px;
   border-radius: 12px;
   color: white;
@@ -362,7 +365,7 @@
 
 .info h3 {
   color: white;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   margin-top: 0;
   font-size: 12px;
   opacity: 0.95;
@@ -401,7 +404,7 @@
 .simulation-control {
   margin-bottom: 20px;
   padding: 20px;
-  background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
   border-radius: 12px;
   border: 1px solid var(--color-primary);
   box-shadow: var(--shadow-md);
@@ -461,7 +464,7 @@
 }
 
 .simulation-button.stop:hover {
-  background: #B91C1C;
+  background: #b91c1c;
   transform: translateY(-1px);
   box-shadow: var(--shadow-md);
 }
@@ -480,7 +483,7 @@
   font-weight: 600;
   color: var(--color-text);
   margin-bottom: 8px;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .speed-buttons {
@@ -499,19 +502,19 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease-out;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .speed-button:hover {
   background: var(--color-background);
-  border-color: #10B981;
+  border-color: #10b981;
   transform: translateY(-1px);
 }
 
 .speed-button.active {
-  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   color: white;
-  border-color: #10B981;
+  border-color: #10b981;
   box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
 }
 
@@ -519,7 +522,7 @@
 .settings-panel {
   margin-bottom: 20px;
   padding: 16px;
-  background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
   border-radius: 12px;
   box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.3);
 }
@@ -527,7 +530,7 @@
 .settings-panel h3 {
   margin: 0 0 16px 0;
   color: white;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 14px;
   font-weight: 700;
   text-transform: uppercase;
@@ -564,7 +567,7 @@
   color: var(--color-text);
   font-size: 14px;
   font-weight: 600;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   text-align: center;
   transition: all 0.2s ease-out;
 }
@@ -599,7 +602,7 @@
 .people-count-filter h3 {
   margin: 0 0 12px 0;
   color: var(--color-text-muted);
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 12px;
 }
 
@@ -612,7 +615,7 @@
 
 .filter-button {
   flex: 1;
-  min-width: 60px;
+  min-width: 100px;
   padding: 10px 14px;
   border: 2px solid var(--color-border);
   background: var(--color-surface);
@@ -627,7 +630,7 @@
 
 @media (max-width: 480px) {
   .filter-button {
-    min-width: 50px;
+    min-width: 100px;
     padding: 12px 10px;
     font-size: 12px;
   }
@@ -649,7 +652,7 @@
 .filter-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  background: #F3F4F6;
+  background: #f3f4f6;
 }
 
 .filter-button:focus {
@@ -688,7 +691,7 @@
 .legend h3 {
   margin: 0 0 12px 0;
   color: var(--color-text-muted);
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 12px;
 }
 
@@ -725,7 +728,7 @@
 .popup-content h3 {
   margin: 0 0 12px 0;
   color: var(--color-text);
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 17px;
   font-weight: 700;
   padding-bottom: 8px;
@@ -747,21 +750,25 @@
 /* Leaflet popup customization */
 .leaflet-popup-content-wrapper {
   border-radius: 12px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  border: 1px solid #E2E8F0;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
 }
 
 .leaflet-popup-content {
   margin: 18px;
   min-width: 220px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    sans-serif;
 }
 
 /* Leaflet layers control customization */
 .leaflet-control-layers {
   border-radius: 12px;
-  box-shadow: 0 10px 15px -3px rgba(8, 145, 178, 0.15), 0 4px 6px -2px rgba(8, 145, 178, 0.1);
-  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  box-shadow: 0 10px 15px -3px rgba(8, 145, 178, 0.15),
+    0 4px 6px -2px rgba(8, 145, 178, 0.1);
+  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", sans-serif;
   border: 2px solid var(--color-border);
 }
 
@@ -781,7 +788,7 @@
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  color: #1E293B;
+  color: #1e293b;
 }
 
 .leaflet-control-layers-base label:hover {
@@ -803,7 +810,7 @@
 
 .leaflet-control-layers-separator {
   margin: 10px 0;
-  border-top: 1px solid #E2E8F0;
+  border-top: 1px solid #e2e8f0;
 }
 
 /* Route priority badge */
@@ -818,28 +825,31 @@
 }
 
 .route-badge.high {
-  background: #FEE2E2;
-  color: #991B1B;
+  background: #fee2e2;
+  color: #991b1b;
 }
 
 .route-badge.medium {
-  background: #DBEAFE;
-  color: #1E40AF;
+  background: #dbeafe;
+  color: #1e40af;
 }
 
 .route-badge.low {
-  background: #D1FAE5;
-  color: #065F46;
+  background: #d1fae5;
+  color: #065f46;
 }
 
 .route-badge.critical {
-  background: #FEF3C7;
-  color: #92400E;
+  background: #fef3c7;
+  color: #92400e;
 }
 
 /* Smooth transitions */
-button, input, label {
-  transition: background-color 0.2s ease-out, border-color 0.2s ease-out, color 0.2s ease-out;
+button,
+input,
+label {
+  transition: background-color 0.2s ease-out, border-color 0.2s ease-out,
+    color 0.2s ease-out;
 }
 
 /* Leaflet marker animations and cursor */
@@ -847,7 +857,8 @@ button, input, label {
 .ambulance-marker,
 .discovery-marker {
   cursor: pointer;
-  transition: transform 0.2s ease-out, filter 0.2s ease-out, opacity 0.2s ease-out;
+  transition: transform 0.2s ease-out, filter 0.2s ease-out,
+    opacity 0.2s ease-out;
   opacity: 0.7;
 }
 
@@ -908,11 +919,11 @@ button, input, label {
   position: absolute;
   top: -8px;
   right: -8px;
-  background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
   color: white;
   font-size: 11px;
   font-weight: 700;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   padding: 3px 7px;
   border-radius: 12px;
   min-width: 20px;
@@ -932,7 +943,9 @@ button, input, label {
 
 /* Respect reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -952,47 +965,47 @@ button, input, label {
   .search-box {
     margin-bottom: 16px;
   }
-  
+
   .search-box::before {
     display: none;
   }
-  
+
   .search-box input {
     padding-left: 16px;
     font-size: 16px; /* Prevents zoom on iOS */
   }
-  
+
   .simulation-control {
     margin-bottom: 16px;
     padding: 16px;
   }
-  
+
   .people-count-filter {
     margin-top: 16px;
     padding: 12px;
   }
-  
+
   .info {
     margin-top: 16px;
     padding: 12px;
   }
-  
+
   .legend {
     margin-top: 12px;
     padding: 12px;
   }
-  
+
   .legend h3 {
     font-size: 11px;
     margin-bottom: 8px;
   }
-  
+
   .legend-item {
     margin-bottom: 6px;
     gap: 6px;
     font-size: 12px;
   }
-  
+
   /* Touch-friendly buttons */
   .simulation-button,
   .reset-button,
@@ -1001,60 +1014,59 @@ button, input, label {
     font-size: 15px;
     padding: 14px 20px;
   }
-  
+
   .speed-button {
     min-height: 44px;
     min-width: 70px;
     font-size: 14px;
   }
-  
+
   .filter-button {
     min-height: 44px;
     padding: 12px 16px;
   }
-  
+
   /* Larger touch targets for checkboxes */
   .filters label {
     min-height: 48px;
     padding: 14px 12px;
   }
-  
+
   .filters input[type="checkbox"] {
     width: 22px;
     height: 22px;
     margin-right: 14px;
   }
-  
+
   /* Compact header */
   .sidebar h2 {
     font-size: 20px;
     margin-bottom: 16px;
     padding-bottom: 8px;
   }
-  
+
   .sidebar h3 {
     font-size: 12px;
     margin: 12px 0 8px 0;
   }
-  
+
   /* Reduce spacing on mobile */
   .control-row {
     gap: 8px;
   }
-  
+
   .filters {
     margin-bottom: 12px;
   }
-  
+
   /* Stack filter checkboxes vertically on very small screens */
   @media (max-width: 480px) {
     .filters label {
       display: flex;
       align-items: center;
-      margin-bottom: 12px;
       min-height: 44px;
     }
-    
+
     .filters input[type="checkbox"] {
       width: 20px;
       height: 20px;
@@ -1084,8 +1096,12 @@ button, input, label {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Modal Content */
@@ -1107,30 +1123,33 @@ button, input, label {
     max-height: 90vh;
     border-radius: 12px;
   }
-  
+
   .modal-header {
     padding: 16px;
   }
-  
+
   .modal-header h2 {
     font-size: 18px;
   }
-  
+
   .setting-row {
     gap: 12px;
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .modal-footer {
     padding: 16px;
     flex-direction: column;
     gap: 12px;
   }
-  
+
   .modal-footer button {
     width: 100%;
     min-height: 44px;
+  }
+  .modal-actions {
+    width: 100%;
   }
 }
 
@@ -1277,7 +1296,7 @@ button, input, label {
 
 /* Settings Summary */
 .setting-summary {
-  background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
   border: 1px solid var(--color-primary);
   border-radius: 12px;
   padding: 16px;

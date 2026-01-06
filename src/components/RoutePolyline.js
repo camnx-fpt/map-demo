@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
-import { Polyline } from 'react-leaflet';
+import React, { useState } from "react";
+import { Polyline } from "react-leaflet";
 
-const RoutePolyline = ({ route, coordinates, isHoveredViaHospital, onHover }) => {
+const RoutePolyline = ({
+  route,
+  coordinates,
+  isHoveredViaHospital,
+  onHover,
+}) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseOver = (e) => {
@@ -34,11 +39,11 @@ const RoutePolyline = ({ route, coordinates, isHoveredViaHospital, onHover }) =>
           dashArray="5, 10"
           eventHandlers={{
             mouseover: handleMouseOver,
-            mouseout: handleMouseOut
+            mouseout: handleMouseOut,
           }}
         />
       )}
-      
+
       {/* Segment 2: Ambulance -> Hospital (when transporting) */}
       {coordinates.segment2 && (
         <Polyline
@@ -48,7 +53,7 @@ const RoutePolyline = ({ route, coordinates, isHoveredViaHospital, onHover }) =>
           opacity={isHighlighted ? 1 : 0.7}
           eventHandlers={{
             mouseover: handleMouseOver,
-            mouseout: handleMouseOut
+            mouseout: handleMouseOut,
           }}
         />
       )}

@@ -72,13 +72,13 @@ function App() {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // Simulation settings
   const [settings, setSettings] = useState(() =>
-    loadSettings(SIMULATION_DEFAULTS)
+    loadSettings(SIMULATION_DEFAULTS),
   );
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
@@ -147,7 +147,7 @@ function App() {
 
   const getRouteCoordinates = (route) => {
     const discovery = dynamicDiscoveryPoints.find(
-      (d) => d.id === route.discoveryPointId
+      (d) => d.id === route.discoveryPointId,
     );
     const ambulance = dynamicAmbulances.find((a) => a.id === route.ambulanceId);
     const hospital = hospitals.find((h) => h.id === route.hospitalId);
@@ -204,7 +204,7 @@ function App() {
       setDynamicAmbulances((prev) => {
         return prev.map((amb) => {
           const discovery = dynamicDiscoveryPoints.find(
-            (d) => d.id === amb.targetDiscoveryId
+            (d) => d.id === amb.targetDiscoveryId,
           );
           const hospital = hospitals.find((h) => h.id === amb.targetHospitalId);
 
@@ -212,10 +212,10 @@ function App() {
           const onArriveAtHospital = (discoveryId) => {
             setTimeout(() => {
               setDynamicRoutes((prevRoutes) =>
-                prevRoutes.filter((r) => r.discoveryPointId !== discoveryId)
+                prevRoutes.filter((r) => r.discoveryPointId !== discoveryId),
               );
               setDynamicDiscoveryPoints((prevPoints) =>
-                prevPoints.filter((d) => d.id !== discoveryId)
+                prevPoints.filter((d) => d.id !== discoveryId),
               );
             }, 0);
           };
@@ -225,7 +225,7 @@ function App() {
             discovery,
             hospital,
             simulationSpeed,
-            onArriveAtHospital
+            onArriveAtHospital,
           );
         });
       });
@@ -240,7 +240,7 @@ function App() {
           .map((a) => a.targetDiscoveryId);
 
         const waitingDiscoveries = dynamicDiscoveryPoints.filter(
-          (d) => !assignedDiscoveryIds.includes(d.id)
+          (d) => !assignedDiscoveryIds.includes(d.id),
         );
 
         // Dispatch idle ambulances to waiting incidents
@@ -248,7 +248,7 @@ function App() {
           const dispatchInfo = generateAmbulanceForDiscovery(
             discovery,
             prev,
-            hospitals
+            hospitals,
           );
 
           if (dispatchInfo) {
@@ -257,7 +257,7 @@ function App() {
                 discovery.id,
                 dispatchInfo.ambulanceId,
                 dispatchInfo.hospitalId,
-                prevId.route
+                prevId.route,
               );
 
               setDynamicRoutes((prevR) => [...prevR, newRoute]);
@@ -273,8 +273,8 @@ function App() {
                         targetDiscoveryId: discovery.id,
                         targetHospitalId: dispatchInfo.hospitalId,
                       }
-                    : a
-                )
+                    : a,
+                ),
               );
 
               return {
@@ -307,7 +307,7 @@ function App() {
               const dispatchInfo = generateAmbulanceForDiscovery(
                 newDiscovery,
                 prev,
-                hospitals
+                hospitals,
               );
 
               if (dispatchInfo) {
@@ -315,7 +315,7 @@ function App() {
                   newDiscovery.id,
                   dispatchInfo.ambulanceId,
                   dispatchInfo.hospitalId,
-                  prevId.route
+                  prevId.route,
                 );
 
                 setDynamicDiscoveryPoints((prevD) => [...prevD, newDiscovery]);
@@ -332,8 +332,8 @@ function App() {
                           targetDiscoveryId: newDiscovery.id,
                           targetHospitalId: dispatchInfo.hospitalId,
                         }
-                      : a
-                  )
+                      : a,
+                  ),
                 );
               }
 
@@ -369,7 +369,7 @@ function App() {
       const newAmbulances = initializeAmbulances(
         hospitals,
         settings.ambulancesPerHospital,
-        settings.independentAmbulances
+        settings.independentAmbulances,
       );
       setDynamicAmbulances(newAmbulances);
       setDynamicDiscoveryPoints([]);
@@ -418,7 +418,7 @@ function App() {
   const filteredAmbulances = filterData(dynamicAmbulances, "ambulance");
   const filteredDiscoveryPoints = filterData(
     dynamicDiscoveryPoints,
-    "discovery"
+    "discovery",
   );
 
   // ============================================================================
@@ -433,7 +433,9 @@ function App() {
           <button
             className="sidebar-toggle-mobile"
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            aria-label={isSidebarOpen ? "サイドバーを閉じる" : "サイドバーを開く"}
+            aria-label={
+              isSidebarOpen ? "サイドバーを閉じる" : "サイドバーを開く"
+            }
           >
             {isSidebarOpen ? "✕" : "☰"}
           </button>
@@ -461,7 +463,7 @@ function App() {
               hospitals: filteredHospitals.length,
               ambulances: filteredAmbulances.length,
               discoveryPoints: filteredDiscoveryPoints.length,
-              activeRoutes: dynamicRoutes.length
+              activeRoutes: dynamicRoutes.length,
             }}
           />
         </>
@@ -489,7 +491,7 @@ function App() {
               hospitals: filteredHospitals.length,
               ambulances: filteredAmbulances.length,
               discoveryPoints: filteredDiscoveryPoints.length,
-              activeRoutes: dynamicRoutes.length
+              activeRoutes: dynamicRoutes.length,
             }}
           />
         </div>
@@ -515,7 +517,7 @@ function App() {
           {filters.hospitals &&
             filteredHospitals.map((hospital) => {
               const relatedRoutes = dynamicRoutes.filter(
-                (r) => r.hospitalId === hospital.id
+                (r) => r.hospitalId === hospital.id,
               );
               const ambulanceCount = relatedRoutes.length;
 
@@ -533,7 +535,7 @@ function App() {
           {filters.ambulances &&
             filteredAmbulances.map((ambulance) => {
               const relatedRoute = dynamicRoutes.find(
-                (r) => r.ambulanceId === ambulance.id
+                (r) => r.ambulanceId === ambulance.id,
               );
               return (
                 <AmbulanceMarker
@@ -549,7 +551,7 @@ function App() {
           {filters.discoveryPoints &&
             filteredDiscoveryPoints.map((point) => {
               const relatedRoute = dynamicRoutes.find(
-                (r) => r.discoveryPointId === point.id
+                (r) => r.discoveryPointId === point.id,
               );
               return (
                 <DiscoveryMarker
@@ -565,7 +567,7 @@ function App() {
           {filters.routes &&
             dynamicRoutes.map((route) => {
               const ambulance = dynamicAmbulances.find(
-                (a) => a.id === route.ambulanceId
+                (a) => a.id === route.ambulanceId,
               );
               // Only show route if ambulance is transporting (to_hospital phase)
               if (!ambulance || ambulance.phase !== "to_hospital") return null;
