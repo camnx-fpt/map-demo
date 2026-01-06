@@ -1,5 +1,6 @@
-// Mock data for hospitals in Japan (Tokyo area)
+// Mock data for hospitals in Japan (Tokyo and Hamamatsu area)
 export const hospitals = [
+  // Tokyo area hospitals
   {
     id: 'h1',
     name: '東京大学医学部附属病院',
@@ -42,27 +43,44 @@ export const hospitals = [
   },
   {
     id: 'h6',
-    name: '日本医科大学付属病院',
-    name_en: 'Nippon Medical School Hospital',
-    lat: 35.7033,
-    lng: 139.7439,
-    address: '東京都文京区千駄木1-1-5'
-  },
-  {
-    id: 'h7',
     name: '虎の門病院',
     name_en: 'Toranomon Hospital',
     lat: 35.6659,
     lng: 139.7456,
     address: '東京都港区虎ノ門2-2-2'
   },
+  // Hamamatsu area hospitals
+  {
+    id: 'h7',
+    name: '浜松医科大学医学部附属病院',
+    name_en: 'Hamamatsu University Hospital',
+    lat: 34.7608,
+    lng: 137.7278,
+    address: '静岡県浜松市東区半田山1-20-1'
+  },
   {
     id: 'h8',
-    name: '国立国際医療研究センター病院',
-    name_en: 'National Center for Global Health and Medicine',
-    lat: 35.7085,
-    lng: 139.7239,
-    address: '東京都新宿区戸山1-21-1'
+    name: '浜松医療センター',
+    name_en: 'Hamamatsu Medical Center',
+    lat: 34.7108,
+    lng: 137.7350,
+    address: '静岡県浜松市中区富塚町328'
+  },
+  {
+    id: 'h9',
+    name: '聖隷浜松病院',
+    name_en: 'Seirei Hamamatsu Hospital',
+    lat: 34.7458,
+    lng: 137.7114,
+    address: '静岡県浜松市中区住吉2-12-12'
+  },
+  {
+    id: 'h10',
+    name: '浜松赤十字病院',
+    name_en: 'Hamamatsu Red Cross Hospital',
+    lat: 34.7280,
+    lng: 137.7525,
+    address: '静岡県浜松市浜北区小林1088-1'
   }
 ];
 
@@ -149,7 +167,8 @@ export const discoveryPoints = [
     lat: 35.6580,
     lng: 139.7016,
     incidentType: '交通事故',
-    time: '2026-01-05 14:30'
+    time: '2026-01-05 14:30',
+    peopleCount: 12
   },
   {
     id: 'd2',
@@ -157,7 +176,8 @@ export const discoveryPoints = [
     lat: 35.6640,
     lng: 139.7650,
     incidentType: '心肺停止',
-    time: '2026-01-05 14:35'
+    time: '2026-01-05 14:35',
+    peopleCount: 1
   },
   {
     id: 'd3',
@@ -165,7 +185,8 @@ export const discoveryPoints = [
     lat: 35.6503,
     lng: 139.7720,
     incidentType: '急病',
-    time: '2026-01-05 14:40'
+    time: '2026-01-05 14:40',
+    peopleCount: 6
   },
   {
     id: 'd4',
@@ -173,7 +194,8 @@ export const discoveryPoints = [
     lat: 35.6380,
     lng: 139.7600,
     incidentType: '転倒',
-    time: '2026-01-05 14:45'
+    time: '2026-01-05 14:45',
+    peopleCount: 2
   },
   {
     id: 'd5',
@@ -181,7 +203,8 @@ export const discoveryPoints = [
     lat: 35.6440,
     lng: 139.7170,
     incidentType: '熱中症',
-    time: '2026-01-05 14:50'
+    time: '2026-01-05 14:50',
+    peopleCount: 3
   },
   {
     id: 'd6',
@@ -189,7 +212,8 @@ export const discoveryPoints = [
     lat: 35.6600,
     lng: 139.7260,
     incidentType: '意識不明',
-    time: '2026-01-05 14:55'
+    time: '2026-01-05 14:55',
+    peopleCount: 8
   },
   // Incidents for St. Luke's Hospital (h3) - fewer cases
   {
@@ -198,15 +222,17 @@ export const discoveryPoints = [
     lat: 35.6750,
     lng: 139.7550,
     incidentType: '打撲',
-    time: '2026-01-05 15:00'
+    time: '2026-01-05 15:00',
+    peopleCount: 4
   },
   {
     id: 'd8',
     name: '銀座四丁目',
-    lat: 35.6655,
-    lng: 139.7900,
-    incidentType: '擦過傷',
-    time: '2026-01-05 15:05'
+    lat: 35.6820,
+    lng: 139.7720,
+    incidentType: '脱水症状',
+    time: '2026-01-05 15:05',
+    peopleCount: 0
   }
 ];
 
