@@ -39,12 +39,17 @@ import {
   PROBABILITY,
 } from "./config/constants";
 
+// Import Leaflet marker images
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+
 // Fix for default marker icons in react-leaflet
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
-  iconUrl: require("leaflet/dist/images/marker-icon.png"),
-  shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
 });
 
 function App() {
@@ -153,25 +158,15 @@ function App() {
     const ambulance = dynamicAmbulances.find((a) => a.id === route.ambulanceId);
     const hospital = hospitals.find((h) => h.id === route.hospitalId);
 
-    if (!ambulance || !hospital) return null;
+    if (!ambulance || !hospital || !discovery) return null;
 
-    // Phase: At discovery point - show connection between ambulance and discovery
-    if (ambulance.phase === "at_discovery" && discovery) {
-      return {
-        segment1: [
-          [ambulance.lat, ambulance.lng],
-          [discovery.lat, discovery.lng],
-        ],
-        segment2: null,
-      };
-    }
-
-    // Phase: Transporting to hospital - show route to hospital
+    // Only show route when ambulance is transporting patient to hospital
+    // Route connects discovery point to hospital (the full journey path)
     if (ambulance.phase === "to_hospital") {
       return {
         segment1: null,
         segment2: [
-          [ambulance.lat, ambulance.lng],
+          [discovery.lat, discovery.lng],
           [hospital.lat, hospital.lng],
         ],
       };

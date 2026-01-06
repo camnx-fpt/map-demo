@@ -2,6 +2,7 @@
   "name": "japan-hospital-map",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "homepage": "https://camnx-fpt.github.io/test-map",
   "dependencies": {
     "i18next": "^23.15.2",
@@ -9,14 +10,13 @@
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
     "react-i18next": "^14.1.3",
-    "react-leaflet": "^4.2.1",
-    "react-scripts": "5.0.1"
+    "react-leaflet": "^4.2.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "format:fix": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json}\""
   },
   "eslintConfig": {
@@ -37,6 +37,9 @@
     ]
   },
   "devDependencies": {
-    "prettier": "^3.7.4"
+    "@vitejs/plugin-react": "^4.3.4",
+    "@vitejs/plugin-react-swc": "^4.2.2",
+    "prettier": "^3.7.4",
+    "vite": "^5.4.11"
   }
 }
