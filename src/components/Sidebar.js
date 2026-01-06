@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from 'react-i18next';
+import FocusDropdown from './FocusDropdown';
 
 const Sidebar = ({
   searchTerm,
@@ -19,6 +20,10 @@ const Sidebar = ({
   onReset,
   onOpenSettings,
   stats,
+  ambulances,
+  discoveryPoints,
+  hospitals,
+  onFocus,
 }) => {
   const { t } = useTranslation();
   
@@ -84,6 +89,17 @@ const Sidebar = ({
           </div>
         )}
       </div>
+      
+      {/* Focus Dropdown */}
+      {isSimulating && (
+        <FocusDropdown
+          ambulances={ambulances}
+          discoveryPoints={discoveryPoints}
+          hospitals={hospitals}
+          onFocus={onFocus}
+        />
+      )}
+      
       <div className="search-box">
         <input
           type="text"

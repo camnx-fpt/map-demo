@@ -48,6 +48,16 @@
     "idle": "Idle",
     "vehicles": "vehicles"
   },
+  "focus": {
+    "title": "Focus",
+    "selectItem": "Select Item",
+    "ambulance": "Ambulance",
+    "discovery": "Discovery Point",
+    "hospital": "Hospital",
+    "toDiscovery": "To Discovery",
+    "atDiscovery": "At Discovery",
+    "toHospital": "To Hospital"
+  },
   "settings": {
     "title": "Simulation Settings",
     "ambulancesPerHospital": "Ambulances Per Hospital",

@@ -3,7 +3,7 @@
  * Real-time ambulance tracking and incident management
  */
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { MapContainer } from "react-leaflet";
 import L from "leaflet";
 import "./App.css";
@@ -17,6 +17,7 @@ import MobileSidebar from "./components/MobileSidebar";
 import SettingsModal from "./components/SettingsModal";
 import LanguageSwitcher from "./components/LanguageSwitcher";
 import MapLayers from "./components/MapLayers";
+import MapController from "./components/MapController";
 import HospitalMarker from "./components/HospitalMarker";
 import AmbulanceMarker from "./components/AmbulanceMarker";
 import DiscoveryMarker from "./components/DiscoveryMarker";
@@ -40,9 +41,9 @@ import {
 } from "./config/constants";
 
 // Import Leaflet marker images
-import markerIcon from 'leaflet/dist/images/marker-icon.png';
-import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
-import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
 // Fix for default marker icons in react-leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -73,6 +74,10 @@ function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
+  // Map reference for focus functionality
+  const mapRef = useRef(null);
+  const ambulanceRefs = useRef({});
+
   // Detect screen size
   useEffect(() => {
     const handleResize = () => {
@@ -84,7 +89,7 @@ function App() {
 
   // Simulation settings
   const [settings, setSettings] = useState(() =>
-    loadSettings(SIMULATION_DEFAULTS),
+    loadSettings(SIMULATION_DEFAULTS)
   );
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
@@ -153,7 +158,7 @@ function App() {
 
   const getRouteCoordinates = (route) => {
     const discovery = dynamicDiscoveryPoints.find(
-      (d) => d.id === route.discoveryPointId,
+      (d) => d.id === route.discoveryPointId
     );
     const ambulance = dynamicAmbulances.find((a) => a.id === route.ambulanceId);
     const hospital = hospitals.find((h) => h.id === route.hospitalId);
@@ -179,6 +184,28 @@ function App() {
     // Route hover is now managed by RoutePolyline component
   };
 
+  /**
+   * Focus on a specific location on the map
+   */
+  const handleFocus = (lat, lng, id, type) => {
+    if (mapRef.current) {
+      // Close all open popups before focusing
+      mapRef.current.closePopup();
+      
+      mapRef.current.flyTo([lat, lng], 15, {
+        duration: 1.5,
+        easeLinearity: 0.5,
+      });
+      
+      // Open popup for ambulance after a short delay to ensure map movement completes
+      if (type === 'ambulance' && ambulanceRefs.current[id]) {
+        setTimeout(() => {
+          ambulanceRefs.current[id]?.openPopup();
+        }, 1600);
+      }
+    }
+  };
+
   const handleHospitalHover = (hospitalId, isHovering) => {
     setHoveredHospital(isHovering ? hospitalId : null);
   };
@@ -200,7 +227,7 @@ function App() {
       setDynamicAmbulances((prev) => {
         return prev.map((amb) => {
           const discovery = dynamicDiscoveryPoints.find(
-            (d) => d.id === amb.targetDiscoveryId,
+            (d) => d.id === amb.targetDiscoveryId
           );
           const hospital = hospitals.find((h) => h.id === amb.targetHospitalId);
 
@@ -208,10 +235,10 @@ function App() {
           const onArriveAtHospital = (discoveryId) => {
             setTimeout(() => {
               setDynamicRoutes((prevRoutes) =>
-                prevRoutes.filter((r) => r.discoveryPointId !== discoveryId),
+                prevRoutes.filter((r) => r.discoveryPointId !== discoveryId)
               );
               setDynamicDiscoveryPoints((prevPoints) =>
-                prevPoints.filter((d) => d.id !== discoveryId),
+                prevPoints.filter((d) => d.id !== discoveryId)
               );
             }, 0);
           };
@@ -221,7 +248,7 @@ function App() {
             discovery,
             hospital,
             simulationSpeed,
-            onArriveAtHospital,
+            onArriveAtHospital
           );
         });
       });
@@ -236,7 +263,7 @@ function App() {
           .map((a) => a.targetDiscoveryId);
 
         const waitingDiscoveries = dynamicDiscoveryPoints.filter(
-          (d) => !assignedDiscoveryIds.includes(d.id),
+          (d) => !assignedDiscoveryIds.includes(d.id)
         );
 
         // Dispatch idle ambulances to waiting incidents
@@ -244,7 +271,7 @@ function App() {
           const dispatchInfo = generateAmbulanceForDiscovery(
             discovery,
             prev,
-            hospitals,
+            hospitals
           );
 
           if (dispatchInfo) {
@@ -253,7 +280,7 @@ function App() {
                 discovery.id,
                 dispatchInfo.ambulanceId,
                 dispatchInfo.hospitalId,
-                prevId.route,
+                prevId.route
               );
 
               setDynamicRoutes((prevR) => [...prevR, newRoute]);
@@ -269,8 +296,8 @@ function App() {
                         targetDiscoveryId: discovery.id,
                         targetHospitalId: dispatchInfo.hospitalId,
                       }
-                    : a,
-                ),
+                    : a
+                )
               );
 
               return {
@@ -303,7 +330,7 @@ function App() {
               const dispatchInfo = generateAmbulanceForDiscovery(
                 newDiscovery,
                 prev,
-                hospitals,
+                hospitals
               );
 
               if (dispatchInfo) {
@@ -311,7 +338,7 @@ function App() {
                   newDiscovery.id,
                   dispatchInfo.ambulanceId,
                   dispatchInfo.hospitalId,
-                  prevId.route,
+                  prevId.route
                 );
 
                 setDynamicDiscoveryPoints((prevD) => [...prevD, newDiscovery]);
@@ -328,8 +355,8 @@ function App() {
                           targetDiscoveryId: newDiscovery.id,
                           targetHospitalId: dispatchInfo.hospitalId,
                         }
-                      : a,
-                  ),
+                      : a
+                  )
                 );
               }
 
@@ -365,7 +392,7 @@ function App() {
       const newAmbulances = initializeAmbulances(
         hospitals,
         settings.ambulancesPerHospital,
-        settings.independentAmbulances,
+        settings.independentAmbulances
       );
       setDynamicAmbulances(newAmbulances);
       setDynamicDiscoveryPoints([]);
@@ -414,7 +441,7 @@ function App() {
   const filteredAmbulances = filterData(dynamicAmbulances, "ambulance");
   const filteredDiscoveryPoints = filterData(
     dynamicDiscoveryPoints,
-    "discovery",
+    "discovery"
   );
 
   // ============================================================================
@@ -461,6 +488,10 @@ function App() {
               discoveryPoints: filteredDiscoveryPoints.length,
               activeRoutes: dynamicRoutes.length,
             }}
+            ambulances={filteredAmbulances}
+            discoveryPoints={filteredDiscoveryPoints}
+            hospitals={filteredHospitals}
+            onFocus={handleFocus}
           />
         </>
       ) : (
@@ -489,6 +520,10 @@ function App() {
               discoveryPoints: filteredDiscoveryPoints.length,
               activeRoutes: dynamicRoutes.length,
             }}
+            ambulances={filteredAmbulances}
+            discoveryPoints={filteredDiscoveryPoints}
+            hospitals={filteredHospitals}
+            onFocus={handleFocus}
           />
         </div>
       )}
@@ -509,13 +544,14 @@ function App() {
           style={{ height: "100%", width: "100%" }}
           zoomControl={false}
         >
+          <MapController mapRef={mapRef} />
           <MapLayers />
 
           {/* Hospital markers */}
           {filters.hospitals &&
             filteredHospitals.map((hospital) => {
               const relatedRoutes = dynamicRoutes.filter(
-                (r) => r.hospitalId === hospital.id,
+                (r) => r.hospitalId === hospital.id
               );
               const ambulanceCount = relatedRoutes.length;
 
@@ -533,7 +569,7 @@ function App() {
           {filters.ambulances &&
             filteredAmbulances.map((ambulance) => {
               const relatedRoute = dynamicRoutes.find(
-                (r) => r.ambulanceId === ambulance.id,
+                (r) => r.ambulanceId === ambulance.id
               );
               return (
                 <AmbulanceMarker
@@ -541,6 +577,13 @@ function App() {
                   ambulance={ambulance}
                   relatedRoute={relatedRoute}
                   onHover={handleRouteHover}
+                  markerRef={(ref) => {
+                    if (ref) {
+                      ambulanceRefs.current[ambulance.id] = ref;
+                    } else {
+                      delete ambulanceRefs.current[ambulance.id];
+                    }
+                  }}
                 />
               );
             })}
@@ -549,7 +592,7 @@ function App() {
           {filters.discoveryPoints &&
             filteredDiscoveryPoints.map((point) => {
               const relatedRoute = dynamicRoutes.find(
-                (r) => r.discoveryPointId === point.id,
+                (r) => r.discoveryPointId === point.id
               );
               return (
                 <DiscoveryMarker
@@ -565,7 +608,7 @@ function App() {
           {filters.routes &&
             dynamicRoutes.map((route) => {
               const ambulance = dynamicAmbulances.find(
-                (a) => a.id === route.ambulanceId,
+                (a) => a.id === route.ambulanceId
               );
               // Only show route if ambulance is transporting (to_hospital phase)
               if (!ambulance || ambulance.phase !== "to_hospital") return null;

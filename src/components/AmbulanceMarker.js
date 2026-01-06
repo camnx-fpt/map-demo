@@ -1,11 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Marker, Popup } from "react-leaflet";
 import { useTranslation } from 'react-i18next';
 import { createAmbulanceIcon } from "./CustomIcons";
 
-const AmbulanceMarker = ({ ambulance, relatedRoute, onHover }) => {
+const AmbulanceMarker = ({ ambulance, relatedRoute, onHover, markerRef }) => {
   const { t } = useTranslation();
   const [isHovered, setIsHovered] = useState(false);
+  const localMarkerRef = useRef(null);
+
+  useEffect(() => {
+    if (markerRef && localMarkerRef.current) {
+      markerRef(localMarkerRef.current);
+    }
+    return () => {
+      if (markerRef) {
+        markerRef(null);
+      }
+    };
+  }, [markerRef]);
 
   const handleMouseOver = () => {
     setIsHovered(true);
@@ -23,6 +35,7 @@ const AmbulanceMarker = ({ ambulance, relatedRoute, onHover }) => {
 
   return (
     <Marker
+      ref={localMarkerRef}
       position={[ambulance.lat, ambulance.lng]}
       icon={createAmbulanceIcon(isHovered)}
       eventHandlers={{

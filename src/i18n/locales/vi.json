@@ -48,6 +48,16 @@
     "idle": "Đang Chờ",
     "vehicles": "xe"
   },
+  "focus": {
+    "title": "Tiêu Điểm",
+    "selectItem": "Chọn Mục",
+    "ambulance": "Xe Cứu Thương",
+    "discovery": "Điểm Phát Hiện",
+    "hospital": "Bệnh Viện",
+    "toDiscovery": "Đến Điểm Phát Hiện",
+    "atDiscovery": "Tại Điểm Phát Hiện",
+    "toHospital": "Về Bệnh Viện"
+  },
   "settings": {
     "title": "Cài Đặt Mô Phỏng",
     "ambulancesPerHospital": "Xe Cứu Thương Mỗi Bệnh Viện",

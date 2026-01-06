@@ -48,6 +48,16 @@
     "idle": "待機中",
     "vehicles": "台"
   },
+  "focus": {
+    "title": "フォーカス",
+    "selectItem": "アイテムを選択",
+    "ambulance": "救急車",
+    "discovery": "発見地点",
+    "hospital": "病院",
+    "toDiscovery": "発見地点へ移動中",
+    "atDiscovery": "発見地点",
+    "toHospital": "病院へ搬送中"
+  },
   "settings": {
     "title": "シミュレーション設定",
     "ambulancesPerHospital": "病院ごとの救急車数",
