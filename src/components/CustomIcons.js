@@ -3,21 +3,34 @@
  * Professional healthcare-themed markers with SVG icons
  */
 
-import L from "leaflet";
-import { getSeverityByCount, COLORS } from "../config/colors";
+import L from 'leaflet';
+import { getSeverityByCount, COLORS } from '../config/colors';
 
 /**
  * Create hospital marker icon with badge
  * @param {number} ambulanceCount - Number of ambulances at this hospital
  * @param {boolean} isHovered - Hover state
+ * @param {boolean} isFollowing - Following state (target lock mode)
  * @returns {L.DivIcon} Leaflet div icon
  */
-export const createHospitalIcon = (ambulanceCount, isHovered = false) => {
-  const opacity = isHovered ? 1 : 0.7;
-  const scale = isHovered ? "scale(1.05)" : "scale(1)";
+export const createHospitalIcon = (
+  ambulanceCount,
+  isHovered = false,
+  isFollowing = false
+) => {
+  const opacity = isFollowing || isHovered ? 1 : 0.7;
+  const scale = isFollowing
+    ? 'scale(1.15)'
+    : isHovered
+      ? 'scale(1.05)'
+      : 'scale(1)';
+  const boxShadow = isFollowing
+    ? '0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.4), 0 4px 12px rgba(0,0,0,0.3)'
+    : `0 2px 8px ${COLORS.ui.shadow}`;
+  const border = isFollowing ? '3px solid #FFD700' : '3px solid white';
 
   return L.divIcon({
-    className: "custom-hospital-icon",
+    className: 'custom-hospital-icon',
     html: `
       <div style="opacity: ${opacity}; transition: all 0.2s ease; transform: ${scale};">
         <div style="
@@ -28,8 +41,8 @@ export const createHospitalIcon = (ambulanceCount, isHovered = false) => {
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 2px 8px ${COLORS.ui.shadow};
-          border: 3px solid white;
+          box-shadow: ${boxShadow};
+          border: ${border};
         ">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
             <path d="M12 2L2 7l10 5 10-5-10-5z"/>
@@ -54,7 +67,7 @@ export const createHospitalIcon = (ambulanceCount, isHovered = false) => {
             border: 2px solid white;
           ">${ambulanceCount}</div>
         `
-            : ""
+            : ''
         }
       </div>
     `,
@@ -68,16 +81,29 @@ export const createHospitalIcon = (ambulanceCount, isHovered = false) => {
  * Create ambulance marker icon
  * @param {string} status - Ambulance status ('idle' or 'en_route')
  * @param {boolean} isHovered - Hover state
+ * @param {boolean} isFollowing - Following state (target lock mode)
  * @returns {L.DivIcon} Leaflet div icon
  */
-export const createAmbulanceIcon = (status, isHovered = false) => {
+export const createAmbulanceIcon = (
+  status,
+  isHovered = false,
+  isFollowing = false
+) => {
   const color =
-    status === "idle" ? COLORS.ambulance.idle : COLORS.ambulance.enRoute;
-  const opacity = isHovered ? 1 : 0.7;
-  const scale = isHovered ? "scale(1.1)" : "scale(1)";
+    status === 'idle' ? COLORS.ambulance.idle : COLORS.ambulance.enRoute;
+  const opacity = isFollowing || isHovered ? 1 : 0.7;
+  const scale = isFollowing
+    ? 'scale(1.2)'
+    : isHovered
+      ? 'scale(1.1)'
+      : 'scale(1)';
+  const boxShadow = isFollowing
+    ? '0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.4), 0 4px 12px rgba(0,0,0,0.3)'
+    : `0 2px 8px ${COLORS.ui.shadow}`;
+  const border = isFollowing ? '3px solid #FFD700' : '3px solid white';
 
   return L.divIcon({
-    className: "custom-ambulance-icon",
+    className: 'custom-ambulance-icon',
     html: `
       <div style="opacity: ${opacity}; transition: all 0.2s ease; transform: ${scale};">
         <div style="
@@ -88,8 +114,8 @@ export const createAmbulanceIcon = (status, isHovered = false) => {
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 2px 8px ${COLORS.ui.shadow};
-          border: 3px solid white;
+          box-shadow: ${boxShadow};
+          border: ${border};
         ">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
             <rect x="1" y="3" width="15" height="13" rx="2"/>
@@ -112,18 +138,31 @@ export const createAmbulanceIcon = (status, isHovered = false) => {
  * Create discovery point marker icon with severity-based color
  * @param {number} peopleCount - Number of people at incident
  * @param {boolean} isHovered - Hover state
+ * @param {boolean} isFollowing - Following state (target lock mode)
  * @returns {L.DivIcon} Leaflet div icon
  */
-export const createDiscoveryIcon = (peopleCount, isHovered = false) => {
+export const createDiscoveryIcon = (
+  peopleCount,
+  isHovered = false,
+  isFollowing = false
+) => {
   const config = getSeverityByCount(peopleCount);
-  const opacity = isHovered ? 1 : 0.7;
-  const scale = isHovered ? "scale(1.15)" : "scale(1)";
+  const opacity = isFollowing || isHovered ? 1 : 0.7;
+  const scale = isFollowing
+    ? 'scale(1.25)'
+    : isHovered
+      ? 'scale(1.15)'
+      : 'scale(1)';
+  const boxShadow = isFollowing
+    ? '0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.4), 0 4px 12px rgba(0,0,0,0.3), 0 0 0 4px rgba(255, 215, 0, 0.3)'
+    : `0 4px 12px ${COLORS.ui.shadow}, 0 0 0 4px rgba(255,255,255,0.5)`;
+  const border = isFollowing ? '3px solid #FFD700' : '3px solid white';
 
   // Display format: actual number + range label
   const displayText = `${peopleCount}人 (${config.label})`;
 
   return L.divIcon({
-    className: "custom-discovery-icon",
+    className: 'custom-discovery-icon',
     html: `
       <div style="opacity: ${opacity}; transition: all 0.2s ease; transform: ${scale};">
         <div style="
@@ -134,8 +173,8 @@ export const createDiscoveryIcon = (peopleCount, isHovered = false) => {
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 4px 12px ${COLORS.ui.shadow}, 0 0 0 4px rgba(255,255,255,0.5);
-          border: 3px solid white;
+          box-shadow: ${boxShadow};
+          border: ${border};
           position: relative;
         ">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="none">

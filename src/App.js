@@ -3,25 +3,25 @@
  * Real-time ambulance tracking and incident management
  */
 
-import React, { useState, useEffect, useRef } from "react";
-import { MapContainer } from "react-leaflet";
-import L from "leaflet";
-import "./App.css";
+import React, { useState, useEffect, useRef } from 'react';
+import { MapContainer } from 'react-leaflet';
+import L from 'leaflet';
+import './App.css';
 
 // Data
-import { hospitals } from "./data/mockData";
+import { hospitals } from './data/mockData';
 
 // Components
-import Sidebar from "./components/Sidebar";
-import MobileSidebar from "./components/MobileSidebar";
-import SettingsModal from "./components/SettingsModal";
-import LanguageSwitcher from "./components/LanguageSwitcher";
-import MapLayers from "./components/MapLayers";
-import MapController from "./components/MapController";
-import HospitalMarker from "./components/HospitalMarker";
-import AmbulanceMarker from "./components/AmbulanceMarker";
-import DiscoveryMarker from "./components/DiscoveryMarker";
-import RoutePolyline from "./components/RoutePolyline";
+import Sidebar from './components/Sidebar';
+import MobileSidebar from './components/MobileSidebar';
+import SettingsModal from './components/SettingsModal';
+import FollowBanner from './components/FollowBanner';
+import MapLayers from './components/MapLayers';
+import MapController from './components/MapController';
+import HospitalMarker from './components/HospitalMarker';
+import AmbulanceMarker from './components/AmbulanceMarker';
+import DiscoveryMarker from './components/DiscoveryMarker';
+import RoutePolyline from './components/RoutePolyline';
 
 // Utilities
 import {
@@ -30,20 +30,20 @@ import {
   createRoute,
   moveAmbulanceAlongRoute,
   initializeAmbulances,
-} from "./utils/simulationHelpers";
-import { loadSettings, saveSettings } from "./utils/localStorage";
+} from './utils/simulationHelpers';
+import { loadSettings, saveSettings } from './utils/localStorage';
 
 // Configuration
 import {
   MAP_CONFIG,
   SIMULATION_DEFAULTS,
   PROBABILITY,
-} from "./config/constants";
+} from './config/constants';
 
 // Import Leaflet marker images
-import markerIcon from "leaflet/dist/images/marker-icon.png";
-import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
-import markerShadow from "leaflet/dist/images/marker-shadow.png";
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
 // Fix for default marker icons in react-leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -66,9 +66,9 @@ function App() {
     routes: true,
   });
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [hoveredHospital, setHoveredHospital] = useState(null);
-  const [peopleCountFilter, setPeopleCountFilter] = useState("all");
+  const [peopleCountFilter, setPeopleCountFilter] = useState('all');
   const [showOnlyEnRoute, setShowOnlyEnRoute] = useState(false);
   const [showOnlyIdle, setShowOnlyIdle] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -83,8 +83,8 @@ function App() {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   // Simulation settings
@@ -102,6 +102,9 @@ function App() {
   // eslint-disable-next-line no-unused-vars
   const [nextId, setNextId] = useState({ discovery: 1, route: 1 });
 
+  // Follow mode state
+  const [followTarget, setFollowTarget] = useState(null); // { id, type, name }
+
   // ============================================================================
   // FILTER HANDLERS
   // ============================================================================
@@ -117,21 +120,21 @@ function App() {
     let filtered = data;
 
     // Apply people count filter for discovery points
-    if (type === "discovery" && peopleCountFilter !== "all") {
+    if (type === 'discovery' && peopleCountFilter !== 'all') {
       filtered = filtered.filter((item) => {
         const count = item.peopleCount || 0;
         switch (peopleCountFilter) {
-          case "10+":
+          case '10+':
             return count >= 10;
-          case "5-9":
+          case '5-9':
             return count >= 5 && count <= 9;
-          case "3-4":
+          case '3-4':
             return count >= 3 && count <= 4;
-          case "2":
+          case '2':
             return count === 2;
-          case "1":
+          case '1':
             return count === 1;
-          case "0":
+          case '0':
             return count === 0;
           default:
             return true;
@@ -140,12 +143,12 @@ function App() {
     }
 
     // Apply status filters for ambulances
-    if (type === "ambulance") {
+    if (type === 'ambulance') {
       if (showOnlyEnRoute) {
-        filtered = filtered.filter((item) => item.status === "en_route");
+        filtered = filtered.filter((item) => item.status === 'en_route');
       }
       if (showOnlyIdle) {
-        filtered = filtered.filter((item) => item.status === "idle");
+        filtered = filtered.filter((item) => item.status === 'idle');
       }
     }
 
@@ -167,7 +170,7 @@ function App() {
 
     // Only show route when ambulance is transporting patient to hospital
     // Route connects discovery point to hospital (the full journey path)
-    if (ambulance.phase === "to_hospital") {
+    if (ambulance.phase === 'to_hospital') {
       return {
         segment1: null,
         segment2: [
@@ -185,30 +188,137 @@ function App() {
   };
 
   /**
-   * Focus on a specific location on the map
+   * Focus on a specific location on the map and enable follow mode
    */
-  const handleFocus = (lat, lng, id, type) => {
+  const handleFocus = (lat, lng, id, type, name) => {
+    // Auto-enable filters to ensure the target is visible
+    setFilters((prev) => ({
+      ...prev,
+      ambulances: type === 'ambulance' ? true : prev.ambulances,
+      discoveryPoints: type === 'discovery' ? true : prev.discoveryPoints,
+      hospitals: type === 'hospital' ? true : prev.hospitals,
+    }));
+
+    // Clear status filters to ensure item is visible
+    if (type === 'ambulance') {
+      setShowOnlyEnRoute(false);
+      setShowOnlyIdle(false);
+    }
+
     if (mapRef.current) {
       // Close all open popups before focusing
       mapRef.current.closePopup();
-      
-      mapRef.current.flyTo([lat, lng], 15, {
+
+      // Get current zoom level
+      const currentZoom = mapRef.current.getZoom();
+      const targetZoom = Math.max(currentZoom, 15);
+
+      // First zoom if needed
+      if (currentZoom < targetZoom) {
+        mapRef.current.setZoom(targetZoom, {
+          animate: true,
+          duration: 0.5,
+        });
+      }
+
+      // Pan to target location with offset (slightly below center)
+      const map = mapRef.current;
+      const point = map.project([lat, lng], targetZoom);
+      // Offset by 80px down to keep target slightly above center
+      point.y -= 80;
+      const newLatLng = map.unproject(point, targetZoom);
+
+      mapRef.current.panTo(newLatLng, {
+        animate: true,
+        duration: 1.2,
+        easeLinearity: 0.25,
+      });
+
+      // Enable follow mode
+      setFollowTarget({ id, type, name });
+    }
+  };
+
+  /**
+   * Clear follow mode
+   */
+  const handleClearFollow = () => {
+    setFollowTarget(null);
+  };
+
+  /**
+   * View target without follow mode (just fly to once)
+   */
+  const handleView = (lat, lng, id, type) => {
+    // Auto-enable filters to ensure the target is visible
+    setFilters((prev) => ({
+      ...prev,
+      ambulances: type === 'ambulance' ? true : prev.ambulances,
+      discoveryPoints: type === 'discovery' ? true : prev.discoveryPoints,
+      hospitals: type === 'hospital' ? true : prev.hospitals,
+    }));
+
+    // Clear status filters to ensure item is visible
+    if (type === 'ambulance') {
+      setShowOnlyEnRoute(false);
+      setShowOnlyIdle(false);
+    }
+
+    if (mapRef.current) {
+      mapRef.current.closePopup();
+
+      const currentZoom = mapRef.current.getZoom();
+      const targetZoom = Math.max(currentZoom, 15);
+
+      mapRef.current.flyTo([lat, lng], targetZoom, {
         duration: 1.5,
         easeLinearity: 0.5,
       });
-      
-      // Open popup for ambulance after a short delay to ensure map movement completes
-      if (type === 'ambulance' && ambulanceRefs.current[id]) {
-        setTimeout(() => {
-          ambulanceRefs.current[id]?.openPopup();
-        }, 1600);
-      }
     }
   };
 
   const handleHospitalHover = (hospitalId, isHovering) => {
     setHoveredHospital(isHovering ? hospitalId : null);
   };
+
+  // ============================================================================
+  // FOLLOW MODE - Auto-pan map to follow target
+  // ============================================================================
+
+  useEffect(() => {
+    if (!followTarget || !mapRef.current) return;
+
+    let target = null;
+
+    // Find the target based on type
+    if (followTarget.type === 'ambulance') {
+      target = dynamicAmbulances.find((a) => a.id === followTarget.id);
+    } else if (followTarget.type === 'discovery') {
+      target = dynamicDiscoveryPoints.find((d) => d.id === followTarget.id);
+    } else if (followTarget.type === 'hospital') {
+      target = hospitals.find((h) => h.id === followTarget.id);
+    }
+
+    // If target found, pan map to keep it centered (with offset)
+    if (target && target.lat && target.lng) {
+      const map = mapRef.current;
+      const currentZoom = map.getZoom();
+      const point = map.project([target.lat, target.lng], currentZoom);
+
+      // Offset by 80px down to keep target slightly above center
+      point.y -= 80;
+      const newLatLng = map.unproject(point, currentZoom);
+
+      map.panTo(newLatLng, {
+        animate: true,
+        duration: 0.5,
+        easeLinearity: 0.1,
+      });
+    } else if (!target && followTarget.type !== 'hospital') {
+      // Target disappeared (e.g., ambulance completed mission), clear follow mode
+      setFollowTarget(null);
+    }
+  }, [followTarget, dynamicAmbulances, dynamicDiscoveryPoints, hospitals]);
 
   // ============================================================================
   // SIMULATION LOGIC
@@ -255,11 +365,11 @@ function App() {
 
       // Auto-dispatch idle ambulances to waiting incidents
       setDynamicAmbulances((prev) => {
-        const idleAmbulances = prev.filter((a) => a.status === "idle");
+        const idleAmbulances = prev.filter((a) => a.status === 'idle');
 
         // Get incidents that don't have ambulances assigned
         const assignedDiscoveryIds = prev
-          .filter((a) => a.status === "en_route" && a.targetDiscoveryId)
+          .filter((a) => a.status === 'en_route' && a.targetDiscoveryId)
           .map((a) => a.targetDiscoveryId);
 
         const waitingDiscoveries = dynamicDiscoveryPoints.filter(
@@ -291,8 +401,8 @@ function App() {
                   a.id === dispatchInfo.ambulanceId
                     ? {
                         ...a,
-                        status: "en_route",
-                        phase: "to_discovery",
+                        status: 'en_route',
+                        phase: 'to_discovery',
                         targetDiscoveryId: discovery.id,
                         targetHospitalId: dispatchInfo.hospitalId,
                       }
@@ -350,8 +460,8 @@ function App() {
                     a.id === dispatchInfo.ambulanceId
                       ? {
                           ...a,
-                          status: "en_route",
-                          phase: "to_discovery",
+                          status: 'en_route',
+                          phase: 'to_discovery',
                           targetDiscoveryId: newDiscovery.id,
                           targetHospitalId: dispatchInfo.hospitalId,
                         }
@@ -437,11 +547,11 @@ function App() {
   // DATA FILTERING
   // ============================================================================
 
-  const filteredHospitals = filterData(hospitals, "hospital");
-  const filteredAmbulances = filterData(dynamicAmbulances, "ambulance");
+  const filteredHospitals = filterData(hospitals, 'hospital');
+  const filteredAmbulances = filterData(dynamicAmbulances, 'ambulance');
   const filteredDiscoveryPoints = filterData(
     dynamicDiscoveryPoints,
-    "discovery"
+    'discovery'
   );
 
   // ============================================================================
@@ -457,10 +567,10 @@ function App() {
             className="sidebar-toggle-mobile"
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             aria-label={
-              isSidebarOpen ? "サイドバーを閉じる" : "サイドバーを開く"
+              isSidebarOpen ? 'サイドバーを閉じる' : 'サイドバーを開く'
             }
           >
-            {isSidebarOpen ? "✕" : "☰"}
+            {isSidebarOpen ? '✕' : '☰'}
           </button>
 
           <MobileSidebar
@@ -492,6 +602,8 @@ function App() {
             discoveryPoints={filteredDiscoveryPoints}
             hospitals={filteredHospitals}
             onFocus={handleFocus}
+            onView={handleView}
+            followTarget={followTarget}
           />
         </>
       ) : (
@@ -524,6 +636,8 @@ function App() {
             discoveryPoints={filteredDiscoveryPoints}
             hospitals={filteredHospitals}
             onFocus={handleFocus}
+            onView={handleView}
+            followTarget={followTarget}
           />
         </div>
       )}
@@ -535,13 +649,13 @@ function App() {
         onSave={handleSaveSettings}
       />
 
-      <LanguageSwitcher />
+      <FollowBanner followTarget={followTarget} onClear={handleClearFollow} />
 
       <div className="map-wrapper">
         <MapContainer
           center={MAP_CONFIG.center}
           zoom={MAP_CONFIG.zoom}
-          style={{ height: "100%", width: "100%" }}
+          style={{ height: '100%', width: '100%' }}
           zoomControl={false}
         >
           <MapController mapRef={mapRef} />
@@ -561,6 +675,12 @@ function App() {
                   hospital={hospital}
                   ambulanceCount={ambulanceCount}
                   onHover={handleHospitalHover}
+                  isFollowing={
+                    followTarget &&
+                    followTarget.type === 'hospital' &&
+                    followTarget.id === hospital.id
+                  }
+                  onFocus={handleFocus}
                 />
               );
             })}
@@ -577,6 +697,12 @@ function App() {
                   ambulance={ambulance}
                   relatedRoute={relatedRoute}
                   onHover={handleRouteHover}
+                  isFollowing={
+                    followTarget &&
+                    followTarget.type === 'ambulance' &&
+                    followTarget.id === ambulance.id
+                  }
+                  onFocus={handleFocus}
                   markerRef={(ref) => {
                     if (ref) {
                       ambulanceRefs.current[ambulance.id] = ref;
@@ -600,6 +726,12 @@ function App() {
                   point={point}
                   relatedRoute={relatedRoute}
                   onHover={handleRouteHover}
+                  isFollowing={
+                    followTarget &&
+                    followTarget.type === 'discovery' &&
+                    followTarget.id === point.id
+                  }
+                  onFocus={handleFocus}
                 />
               );
             })}
@@ -611,7 +743,7 @@ function App() {
                 (a) => a.id === route.ambulanceId
               );
               // Only show route if ambulance is transporting (to_hospital phase)
-              if (!ambulance || ambulance.phase !== "to_hospital") return null;
+              if (!ambulance || ambulance.phase !== 'to_hospital') return null;
 
               const coordinates = getRouteCoordinates(route);
               const isHoveredViaHospital = hoveredHospital === route.hospitalId;

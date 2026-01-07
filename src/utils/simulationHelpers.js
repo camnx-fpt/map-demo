@@ -10,8 +10,8 @@ import {
   GEO_BOUNDS,
   PROBABILITY,
   ROUTE_PRIORITIES,
-} from "../config/constants";
-import { COLORS } from "../config/colors";
+} from '../config/constants';
+import { COLORS } from '../config/colors';
 
 /**
  * Generate random discovery point
@@ -44,7 +44,7 @@ export const generateRandomDiscovery = (id) => {
     lng: randomLng,
     incidentType:
       INCIDENT_TYPES[Math.floor(Math.random() * INCIDENT_TYPES.length)],
-    time: new Date().toLocaleString("ja-JP"),
+    time: new Date().toLocaleString('ja-JP'),
     peopleCount: Math.floor(Math.random() * 15),
   };
 };
@@ -59,9 +59,9 @@ export const generateRandomDiscovery = (id) => {
 export const generateAmbulanceForDiscovery = (
   discoveryPoint,
   availableAmbulances,
-  hospitals,
+  hospitals
 ) => {
-  const idleAmbulances = availableAmbulances.filter((a) => a.status === "idle");
+  const idleAmbulances = availableAmbulances.filter((a) => a.status === 'idle');
 
   if (idleAmbulances.length === 0) return null;
 
@@ -71,7 +71,7 @@ export const generateAmbulanceForDiscovery = (
       const dist = calculateDistance(amb, discoveryPoint);
       return dist < nearest.dist ? { ambulance: amb, dist } : nearest;
     },
-    { ambulance: null, dist: Infinity },
+    { ambulance: null, dist: Infinity }
   );
 
   if (!nearest.ambulance) return null;
@@ -82,7 +82,7 @@ export const generateAmbulanceForDiscovery = (
       const dist = calculateDistance(h, discoveryPoint);
       return dist < nearest.dist ? { hospital: h, dist } : nearest;
     },
-    { hospital: hospitals[0], dist: Infinity },
+    { hospital: hospitals[0], dist: Infinity }
   ).hospital;
 
   return {
@@ -121,7 +121,7 @@ export const createRoute = (discoveryId, ambulanceId, hospitalId, routeId) => {
  */
 export const calculateDistance = (point1, point2) => {
   return Math.sqrt(
-    Math.pow(point1.lat - point2.lat, 2) + Math.pow(point1.lng - point2.lng, 2),
+    Math.pow(point1.lat - point2.lat, 2) + Math.pow(point1.lng - point2.lng, 2)
   );
 };
 
@@ -139,24 +139,24 @@ export const moveAmbulanceAlongRoute = (
   discovery,
   hospital,
   speed = 1,
-  onArriveAtHospital,
+  onArriveAtHospital
 ) => {
   const moveSpeed = 0.0005 * speed;
   const TIME_AT_DISCOVERY = 3000; // 3 seconds at discovery point
 
   // Phase 1: Idle - patrol around home hospital
-  if (ambulance.phase === "idle") {
+  if (ambulance.phase === 'idle') {
     return updateIdlePatrol(ambulance, speed);
   }
 
   // Phase 2: Going to discovery point
-  if (ambulance.phase === "to_discovery") {
+  if (ambulance.phase === 'to_discovery') {
     // If discovery point no longer exists, reset to idle
     if (!discovery) {
       return {
         ...ambulance,
-        status: "idle",
-        phase: "idle",
+        status: 'idle',
+        phase: 'idle',
         targetDiscoveryId: null,
         targetHospitalId: null,
         idleStartTime: Date.now(),
@@ -164,11 +164,11 @@ export const moveAmbulanceAlongRoute = (
         patrolTargetLng: null,
       };
     }
-    return moveToTarget(ambulance, discovery, moveSpeed, "at_discovery");
+    return moveToTarget(ambulance, discovery, moveSpeed, 'at_discovery');
   }
 
   // Phase 3: At discovery point - wait before transporting
-  if (ambulance.phase === "at_discovery") {
+  if (ambulance.phase === 'at_discovery') {
     if (!ambulance.discoveryArrivalTime) {
       return {
         ...ambulance,
@@ -180,7 +180,7 @@ export const moveAmbulanceAlongRoute = (
     if (timeAtDiscovery >= TIME_AT_DISCOVERY) {
       return {
         ...ambulance,
-        phase: "to_hospital",
+        phase: 'to_hospital',
         discoveryArrivalTime: null,
       };
     }
@@ -189,13 +189,13 @@ export const moveAmbulanceAlongRoute = (
   }
 
   // Phase 4: Going to hospital with patient
-  if (ambulance.phase === "to_hospital") {
+  if (ambulance.phase === 'to_hospital') {
     // If hospital no longer exists, reset to idle
     if (!hospital) {
       return {
         ...ambulance,
-        status: "idle",
-        phase: "idle",
+        status: 'idle',
+        phase: 'idle',
         targetDiscoveryId: null,
         targetHospitalId: null,
         idleStartTime: Date.now(),
@@ -204,10 +204,10 @@ export const moveAmbulanceAlongRoute = (
       };
     }
 
-    const result = moveToTarget(ambulance, hospital, moveSpeed, "idle");
+    const result = moveToTarget(ambulance, hospital, moveSpeed, 'idle');
 
     // If arrived at hospital, trigger cleanup
-    if (result.phase === "idle" && onArriveAtHospital) {
+    if (result.phase === 'idle' && onArriveAtHospital) {
       onArriveAtHospital(ambulance.targetDiscoveryId);
     }
 
@@ -290,8 +290,8 @@ const moveToTarget = (ambulance, target, moveSpeed, nextPhase) => {
     };
 
     // If returning to idle, reset state
-    if (nextPhase === "idle") {
-      update.status = "idle";
+    if (nextPhase === 'idle') {
+      update.status = 'idle';
       update.targetDiscoveryId = null;
       update.targetHospitalId = null;
       update.idleStartTime = Date.now();
@@ -331,8 +331,8 @@ export const initializeAmbulances = (hospitals, perHospital, independent) => {
         homeHospitalId: hospital.id,
         homeHospitalLat: hospital.lat,
         homeHospitalLng: hospital.lng,
-        status: "idle",
-        phase: "idle",
+        status: 'idle',
+        phase: 'idle',
         idleStartTime: Date.now(),
         patrolAngle: Math.random() * Math.PI * 2,
       });
@@ -350,8 +350,8 @@ export const initializeAmbulances = (hospitals, perHospital, independent) => {
       homeHospitalId: randomHospital.id,
       homeHospitalLat: randomHospital.lat,
       homeHospitalLng: randomHospital.lng,
-      status: "idle",
-      phase: "idle",
+      status: 'idle',
+      phase: 'idle',
       idleStartTime: Date.now(),
       patrolAngle: Math.random() * Math.PI * 2,
     });

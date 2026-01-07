@@ -26,46 +26,46 @@ export const SIMULATION_DEFAULTS = {
 
 // Incident types for random generation
 export const INCIDENT_TYPES = [
-  "交通事故",
-  "心肺停止",
-  "急病",
-  "転倒",
-  "熱中症",
-  "意識不明",
-  "打撲",
-  "脱水症状",
+  '交通事故',
+  '心肺停止',
+  '急病',
+  '転倒',
+  '熱中症',
+  '意識不明',
+  '打撲',
+  '脱水症状',
 ];
 
 // Location names for Tokyo area
 export const TOKYO_AREAS = [
-  "渋谷",
-  "新宿",
-  "六本木",
-  "銀座",
-  "池袋",
-  "品川",
-  "恵比寿",
-  "表参道",
-  "原宿",
-  "代官山",
+  '渋谷',
+  '新宿',
+  '六本木',
+  '銀座',
+  '池袋',
+  '品川',
+  '恵比寿',
+  '表参道',
+  '原宿',
+  '代官山',
 ];
 
 // Location names for Hamamatsu area
 export const HAMAMATSU_AREAS = [
-  "浜松",
-  "舞阪",
-  "浜北",
-  "天竜",
-  "細江",
-  "引佐",
-  "三ヶ日",
-  "春野",
-  "佐久間",
-  "水窪",
+  '浜松',
+  '舞阪',
+  '浜北',
+  '天竜',
+  '細江',
+  '引佐',
+  '三ヶ日',
+  '春野',
+  '佐久間',
+  '水窪',
 ];
 
 // Location suffixes
-export const LOCATION_SUFFIXES = ["駅前", "交差点", "公園", "広場", "通り"];
+export const LOCATION_SUFFIXES = ['駅前', '交差点', '公園', '広場', '通り'];
 
 // Geographic boundaries
 export const GEO_BOUNDS = {
@@ -87,14 +87,14 @@ export const PROBABILITY = {
 
 // Filter options
 export const PEOPLE_COUNT_FILTERS = [
-  { value: "all", label: "すべて" },
-  { value: "10+", label: "10+人" },
-  { value: "5-9", label: "5-9人" },
-  { value: "3-4", label: "3-4人" },
-  { value: "2", label: "2人" },
-  { value: "1", label: "1人" },
-  { value: "0", label: "0人" },
+  { value: 'all', label: 'すべて' },
+  { value: '10+', label: '10+人' },
+  { value: '5-9', label: '5-9人' },
+  { value: '3-4', label: '3-4人' },
+  { value: '2', label: '2人' },
+  { value: '1', label: '1人' },
+  { value: '0', label: '0人' },
 ];
 
 // Route priorities
-export const ROUTE_PRIORITIES = ["critical", "high", "medium", "low"];
+export const ROUTE_PRIORITIES = ['critical', 'high', 'medium', 'low'];

@@ -1,6 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import FocusDropdown from './FocusDropdown';
+import LanguageSwitcher from './LanguageSwitcher';
 
 const MobileSidebar = ({
   isOpen,
@@ -26,23 +27,25 @@ const MobileSidebar = ({
   discoveryPoints,
   hospitals,
   onFocus,
+  onView,
+  followTarget,
 }) => {
   const { t } = useTranslation();
-  
+
   const peopleCountOptions = [
-    { value: "all", label: t('filter.all') },
-    { value: "10+", label: "10+" },
-    { value: "5-9", label: "5~9" },
-    { value: "3-4", label: "3~4" },
-    { value: "2", label: "2" },
-    { value: "1", label: "1" },
-    { value: "0", label: "0" },
+    { value: 'all', label: t('filter.all') },
+    { value: '10+', label: '10+' },
+    { value: '5-9', label: '5~9' },
+    { value: '3-4', label: '3~4' },
+    { value: '2', label: '2' },
+    { value: '1', label: '1' },
+    { value: '0', label: '0' },
   ];
 
   const speedOptions = [
-    { value: 1, label: "1x" },
-    { value: 2, label: "2x" },
-    { value: 3, label: "3x" },
+    { value: 1, label: '1x' },
+    { value: 2, label: '2x' },
+    { value: 3, label: '3x' },
   ];
 
   // Swipe to close gesture
@@ -90,12 +93,12 @@ const MobileSidebar = ({
   // Prevent body scroll when sidebar is open
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
     }
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
     };
   }, [isOpen]);
 
@@ -113,8 +116,8 @@ const MobileSidebar = ({
           transform:
             isDragging && currentY > startY
               ? `translateY(${currentY - startY}px)`
-              : "translateY(0)",
-          transition: isDragging ? "none" : "transform 0.3s ease",
+              : 'translateY(0)',
+          transition: isDragging ? 'none' : 'transform 0.3s ease',
         }}
       >
         {/* Header with close button and swipe handle */}
@@ -128,13 +131,16 @@ const MobileSidebar = ({
           <div className="mobile-sidebar-handle" />
           <div className="mobile-sidebar-title-row">
             <h2>{t('app.title')}</h2>
-            <button
-              className="mobile-sidebar-close"
-              onClick={onClose}
-              aria-label={t('app.close')}
-            >
-              ✕
-            </button>
+            <div className="mobile-header-actions">
+              <LanguageSwitcher />
+              <button
+                className="mobile-sidebar-close"
+                onClick={onClose}
+                aria-label={t('app.close')}
+              >
+                ✕
+              </button>
+            </div>
           </div>
         </div>
 
@@ -143,10 +149,12 @@ const MobileSidebar = ({
           {/* Simulation Control */}
           <div className="simulation-control">
             <button
-              className={`simulation-button ${isSimulating ? "stop" : "start"}`}
+              className={`simulation-button ${isSimulating ? 'stop' : 'start'}`}
               onClick={onToggleSimulation}
             >
-              {isSimulating ? `⏸️ ${t('simulation.stop')}` : `▶️ ${t('simulation.start')}`}
+              {isSimulating
+                ? `⏸️ ${t('simulation.stop')}`
+                : `▶️ ${t('simulation.start')}`}
             </button>
 
             <div className="control-row">
@@ -173,7 +181,7 @@ const MobileSidebar = ({
                   {speedOptions.map((option) => (
                     <button
                       key={option.value}
-                      className={`speed-button ${simulationSpeed === option.value ? "active" : ""}`}
+                      className={`speed-button ${simulationSpeed === option.value ? 'active' : ''}`}
                       onClick={() => onSpeedChange(option.value)}
                     >
                       {option.label}
@@ -191,6 +199,8 @@ const MobileSidebar = ({
               discoveryPoints={discoveryPoints}
               hospitals={hospitals}
               onFocus={onFocus}
+              onView={onView}
+              followTarget={followTarget}
             />
           )}
 
@@ -209,7 +219,7 @@ const MobileSidebar = ({
               <input
                 type="checkbox"
                 checked={filters.hospitals}
-                onChange={() => onFilterChange("hospitals")}
+                onChange={() => onFilterChange('hospitals')}
               />
               <span>🏥 {t('layers.hospitals')}</span>
             </label>
@@ -217,7 +227,7 @@ const MobileSidebar = ({
               <input
                 type="checkbox"
                 checked={filters.ambulances}
-                onChange={() => onFilterChange("ambulances")}
+                onChange={() => onFilterChange('ambulances')}
               />
               <span>🚑 {t('layers.ambulances')}</span>
             </label>
@@ -243,7 +253,7 @@ const MobileSidebar = ({
               <input
                 type="checkbox"
                 checked={filters.discoveryPoints}
-                onChange={() => onFilterChange("discoveryPoints")}
+                onChange={() => onFilterChange('discoveryPoints')}
               />
               <span>📍 {t('layers.discoveryPoints')}</span>
             </label>
@@ -251,7 +261,7 @@ const MobileSidebar = ({
               <input
                 type="checkbox"
                 checked={filters.routes}
-                onChange={() => onFilterChange("routes")}
+                onChange={() => onFilterChange('routes')}
               />
               <span>🔗 {t('layers.routes')}</span>
             </label>
@@ -263,7 +273,7 @@ const MobileSidebar = ({
               {peopleCountOptions.map((option) => (
                 <button
                   key={option.value}
-                  className={`filter-button ${peopleCountFilter === option.value ? "active" : ""}`}
+                  className={`filter-button ${peopleCountFilter === option.value ? 'active' : ''}`}
                   onClick={() => onPeopleCountChange(option.value)}
                   disabled={!filters.discoveryPoints}
                 >
@@ -275,10 +285,18 @@ const MobileSidebar = ({
 
           <div className="info">
             <h3>{t('stats.title')}</h3>
-            <p>🏥 {t('stats.hospitals')}: {stats.hospitals}</p>
-            <p>🚑 {t('stats.ambulances')}: {stats.ambulances}</p>
-            <p>📍 {t('stats.discoveryPoints')}: {stats.discoveryPoints}</p>
-            <p>🛣️ {t('stats.activeRoutes')}: {stats.activeRoutes}</p>
+            <p>
+              🏥 {t('stats.hospitals')}: {stats.hospitals}
+            </p>
+            <p>
+              🚑 {t('stats.ambulances')}: {stats.ambulances}
+            </p>
+            <p>
+              📍 {t('stats.discoveryPoints')}: {stats.discoveryPoints}
+            </p>
+            <p>
+              🛣️ {t('stats.activeRoutes')}: {stats.activeRoutes}
+            </p>
           </div>
 
           <div className="legend">
@@ -286,28 +304,28 @@ const MobileSidebar = ({
             <div className="legend-item">
               <div
                 className="legend-line"
-                style={{ background: "#EA580C" }}
+                style={{ background: '#EA580C' }}
               ></div>
               <span>{t('priority.critical')}</span>
             </div>
             <div className="legend-item">
               <div
                 className="legend-line"
-                style={{ background: "#DC2626" }}
+                style={{ background: '#DC2626' }}
               ></div>
               <span>{t('priority.high')}</span>
             </div>
             <div className="legend-item">
               <div
                 className="legend-line"
-                style={{ background: "#0891B2" }}
+                style={{ background: '#0891B2' }}
               ></div>
               <span>{t('priority.medium')}</span>
             </div>
             <div className="legend-item">
               <div
                 className="legend-line"
-                style={{ background: "#059669" }}
+                style={{ background: '#059669' }}
               ></div>
               <span>{t('priority.low')}</span>
             </div>

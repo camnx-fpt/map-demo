@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { useMap } from "react-leaflet";
+import { useEffect } from 'react';
+import { useMap } from 'react-leaflet';
 
 /**
  * Component to expose map instance to parent via ref

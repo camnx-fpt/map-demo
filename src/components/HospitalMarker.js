@@ -1,11 +1,24 @@
-import React, { useState } from "react";
-import { Marker, Popup } from "react-leaflet";
+import React, { useState } from 'react';
+import { Marker, Popup } from 'react-leaflet';
 import { useTranslation } from 'react-i18next';
-import { createHospitalIcon } from "./CustomIcons";
+import { createHospitalIcon } from './CustomIcons';
 
-const HospitalMarker = ({ hospital, ambulanceCount, onHover }) => {
+const HospitalMarker = ({
+  hospital,
+  ambulanceCount,
+  onHover,
+  isFollowing = false,
+  onFocus,
+}) => {
   const { t } = useTranslation();
   const [isHovered, setIsHovered] = useState(false);
+
+  const handleFollowClick = () => {
+    if (onFocus) {
+      const name = hospital.name;
+      onFocus(hospital.lat, hospital.lng, hospital.id, 'hospital', name);
+    }
+  };
 
   const handleMouseOver = () => {
     setIsHovered(true);
@@ -20,7 +33,12 @@ const HospitalMarker = ({ hospital, ambulanceCount, onHover }) => {
   return (
     <Marker
       position={[hospital.lat, hospital.lng]}
-      icon={createHospitalIcon(ambulanceCount, isHovered)}
+      icon={createHospitalIcon(
+        ambulanceCount,
+        isHovered || isFollowing,
+        isFollowing
+      )}
+      zIndexOffset={isFollowing ? 1000 : 0}
       eventHandlers={{
         mouseover: handleMouseOver,
         mouseout: handleMouseOut,
@@ -35,9 +53,17 @@ const HospitalMarker = ({ hospital, ambulanceCount, onHover }) => {
           <p>{hospital.address}</p>
           {ambulanceCount > 0 && (
             <p>
-              <strong>{t('status.enRoute')}</strong> {ambulanceCount}{t('status.vehicles')}
+              <strong>{t('status.enRoute')}</strong> {ambulanceCount}
+              {t('status.vehicles')}
             </p>
           )}
+          <button
+            className="popup-follow-btn"
+            onClick={handleFollowClick}
+            disabled={isFollowing}
+          >
+            {isFollowing ? '✔️ Following' : '🎯 Follow'}
+          </button>
         </div>
       </Popup>
     </Marker>

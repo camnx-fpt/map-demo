@@ -1,12 +1,12 @@
-import React from "react";
-import { TileLayer, LayersControl } from "react-leaflet";
+import React from 'react';
+import { TileLayer, LayersControl } from 'react-leaflet';
 import { useTranslation } from 'react-i18next';
 
 const { BaseLayer } = LayersControl;
 
 const MapLayers = () => {
   const { t } = useTranslation();
-  
+
   return (
     <LayersControl position="topright">
       <BaseLayer name={`🗾 ${t('map.paleMap')}`}>

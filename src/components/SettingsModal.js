@@ -3,9 +3,9 @@
  * Configuration panel for simulation parameters with localStorage persistence
  */
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SIMULATION_DEFAULTS } from "../config/constants";
+import { SIMULATION_DEFAULTS } from '../config/constants';
 
 const SettingsModal = ({ isOpen, onClose, settings, onSave }) => {
   const { t } = useTranslation();
@@ -48,7 +48,9 @@ const SettingsModal = ({ isOpen, onClose, settings, onSave }) => {
             {/* Ambulances per Hospital */}
             <div className="setting-row">
               <label className="setting-label">
-                <span className="setting-title">{t('settings.ambulancesPerHospital')}</span>
+                <span className="setting-title">
+                  {t('settings.ambulancesPerHospital')}
+                </span>
                 <span className="setting-description">
                   {t('settings.ambulancesPerHospitalDesc')}
                 </span>
@@ -60,7 +62,7 @@ const SettingsModal = ({ isOpen, onClose, settings, onSave }) => {
                   max="5"
                   value={localSettings.ambulancesPerHospital}
                   onChange={(e) =>
-                    handleChange("ambulancesPerHospital", e.target.value)
+                    handleChange('ambulancesPerHospital', e.target.value)
                   }
                   className="setting-input"
                 />
@@ -71,7 +73,9 @@ const SettingsModal = ({ isOpen, onClose, settings, onSave }) => {
             {/* Independent Ambulances */}
             <div className="setting-row">
               <label className="setting-label">
-                <span className="setting-title">{t('settings.independentAmbulances')}</span>
+                <span className="setting-title">
+                  {t('settings.independentAmbulances')}
+                </span>
                 <span className="setting-description">
                   {t('settings.independentAmbulancesDesc')}
                 </span>
@@ -83,7 +87,7 @@ const SettingsModal = ({ isOpen, onClose, settings, onSave }) => {
                   max="10"
                   value={localSettings.independentAmbulances}
                   onChange={(e) =>
-                    handleChange("independentAmbulances", e.target.value)
+                    handleChange('independentAmbulances', e.target.value)
                   }
                   className="setting-input"
                 />
@@ -94,7 +98,9 @@ const SettingsModal = ({ isOpen, onClose, settings, onSave }) => {
             {/* Max Incidents */}
             <div className="setting-row">
               <label className="setting-label">
-                <span className="setting-title">{t('settings.maxIncidents')}</span>
+                <span className="setting-title">
+                  {t('settings.maxIncidents')}
+                </span>
                 <span className="setting-description">
                   {t('settings.maxIncidentsDesc')}
                 </span>
@@ -105,7 +111,7 @@ const SettingsModal = ({ isOpen, onClose, settings, onSave }) => {
                   min="1"
                   max="50"
                   value={localSettings.maxIncidents}
-                  onChange={(e) => handleChange("maxIncidents", e.target.value)}
+                  onChange={(e) => handleChange('maxIncidents', e.target.value)}
                   className="setting-input"
                 />
                 <span className="setting-unit">{t('units.incidents')}</span>
@@ -115,7 +121,9 @@ const SettingsModal = ({ isOpen, onClose, settings, onSave }) => {
             {/* Min Idle Time */}
             <div className="setting-row">
               <label className="setting-label">
-                <span className="setting-title">{t('settings.minWaitTime')}</span>
+                <span className="setting-title">
+                  {t('settings.minWaitTime')}
+                </span>
                 <span className="setting-description">
                   {t('settings.minWaitTimeDesc')}
                 </span>
@@ -126,7 +134,7 @@ const SettingsModal = ({ isOpen, onClose, settings, onSave }) => {
                   min="1"
                   max="60"
                   value={localSettings.minIdleTime}
-                  onChange={(e) => handleChange("minIdleTime", e.target.value)}
+                  onChange={(e) => handleChange('minIdleTime', e.target.value)}
                   className="setting-input"
                 />
                 <span className="setting-unit">{t('units.seconds')}</span>
@@ -136,7 +144,9 @@ const SettingsModal = ({ isOpen, onClose, settings, onSave }) => {
             {/* Max Idle Time */}
             <div className="setting-row">
               <label className="setting-label">
-                <span className="setting-title">{t('settings.maxWaitTime')}</span>
+                <span className="setting-title">
+                  {t('settings.maxWaitTime')}
+                </span>
                 <span className="setting-description">
                   {t('settings.maxWaitTimeDesc')}
                 </span>
@@ -147,7 +157,7 @@ const SettingsModal = ({ isOpen, onClose, settings, onSave }) => {
                   min="1"
                   max="120"
                   value={localSettings.maxIdleTime}
-                  onChange={(e) => handleChange("maxIdleTime", e.target.value)}
+                  onChange={(e) => handleChange('maxIdleTime', e.target.value)}
                   className="setting-input"
                 />
                 <span className="setting-unit">{t('units.seconds')}</span>
@@ -165,9 +175,12 @@ const SettingsModal = ({ isOpen, onClose, settings, onSave }) => {
                 </span>
               </div>
               <div className="summary-item">
-                <span className="summary-label">{t('settings.incidentInterval')}:</span>
+                <span className="summary-label">
+                  {t('settings.incidentInterval')}:
+                </span>
                 <span className="summary-value">
-                  {localSettings.minIdleTime}〜{localSettings.maxIdleTime}{t('units.seconds')}
+                  {localSettings.minIdleTime}〜{localSettings.maxIdleTime}
+                  {t('units.seconds')}
                 </span>
               </div>
             </div>
