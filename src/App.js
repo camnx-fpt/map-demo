@@ -111,6 +111,17 @@ function App() {
   const [isListPanelOpen, setIsListPanelOpen] = useState(false);
   const [listPanelWidth, setListPanelWidth] = useState(40); // percentage
 
+  // Invalidate map size when list panel toggles or resizes
+  useEffect(() => {
+    if (mapRef.current) {
+      // Small delay to ensure DOM has updated
+      const timer = setTimeout(() => {
+        mapRef.current.invalidateSize();
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [isListPanelOpen, listPanelWidth]);
+
   // ============================================================================
   // FILTER HANDLERS
   // ============================================================================
@@ -610,6 +621,8 @@ function App() {
             onFocus={handleFocus}
             onView={handleView}
             followTarget={followTarget}
+            isListPanelOpen={isListPanelOpen}
+            onToggleListPanel={toggleListPanel}
           />
         </>
       ) : (
@@ -661,7 +674,42 @@ function App() {
 
       {/* Map and List Panel with Splitter */}
       <div className="map-wrapper">
-        {isListPanelOpen && !isMobile ? (
+        {/* Mobile: List Panel Modal */}
+        {isMobile && isListPanelOpen && (
+          <div className="mobile-list-panel-overlay">
+            <div className="mobile-list-panel-container">
+              <div className="mobile-list-panel-header">
+                <h3>Danh Sách</h3>
+                <button
+                  className="mobile-list-panel-close"
+                  onClick={() => setIsListPanelOpen(false)}
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path d="M18 6L6 18M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              <ListPanel
+                ambulances={filteredAmbulances}
+                hospitals={filteredHospitals}
+                onFocus={handleFocus}
+                onView={handleView}
+                followTarget={followTarget}
+                dynamicRoutes={dynamicRoutes}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Desktop/Tablet: Split Layout or Full Map */}
+        {!isMobile && isListPanelOpen ? (
           <Split
             className="split-container"
             sizes={[100 - listPanelWidth, listPanelWidth]}
@@ -669,7 +717,6 @@ function App() {
             gutterSize={8}
             onDragEnd={(sizes) => {
               setListPanelWidth(sizes[1]);
-              // Close panel if dragged to minimum width (< 5%)
               if (sizes[1] < 5) {
                 setIsListPanelOpen(false);
               }
@@ -799,115 +846,117 @@ function App() {
             </div>
           </Split>
         ) : (
-          <MapContainer
-            center={MAP_CONFIG.center}
-            zoom={MAP_CONFIG.zoom}
-            style={{ height: '100%', width: '100%' }}
-            zoomControl={false}
-          >
-            <MapController mapRef={mapRef} />
-            <MapLayers />
+          <div className="map-container">
+            <MapContainer
+              center={MAP_CONFIG.center}
+              zoom={MAP_CONFIG.zoom}
+              style={{ height: '100%', width: '100%' }}
+              zoomControl={false}
+            >
+              <MapController mapRef={mapRef} />
+              <MapLayers />
 
-            {/* Hospital markers */}
-            {filters.hospitals &&
-              filteredHospitals.map((hospital) => {
-                const relatedRoutes = dynamicRoutes.filter(
-                  (r) => r.hospitalId === hospital.id
-                );
-                const ambulanceCount = relatedRoutes.length;
+              {/* Hospital markers */}
+              {filters.hospitals &&
+                filteredHospitals.map((hospital) => {
+                  const relatedRoutes = dynamicRoutes.filter(
+                    (r) => r.hospitalId === hospital.id
+                  );
+                  const ambulanceCount = relatedRoutes.length;
 
-                return (
-                  <HospitalMarker
-                    key={hospital.id}
-                    hospital={hospital}
-                    ambulanceCount={ambulanceCount}
-                    onHover={handleHospitalHover}
-                    isFollowing={
-                      followTarget &&
-                      followTarget.type === 'hospital' &&
-                      followTarget.id === hospital.id
-                    }
-                    onFocus={handleFocus}
-                  />
-                );
-              })}
-
-            {/* Ambulance markers */}
-            {filters.ambulances &&
-              filteredAmbulances.map((ambulance) => {
-                const relatedRoute = dynamicRoutes.find(
-                  (r) => r.ambulanceId === ambulance.id
-                );
-                return (
-                  <AmbulanceMarker
-                    key={ambulance.id}
-                    ambulance={ambulance}
-                    relatedRoute={relatedRoute}
-                    onHover={handleRouteHover}
-                    isFollowing={
-                      followTarget &&
-                      followTarget.type === 'ambulance' &&
-                      followTarget.id === ambulance.id
-                    }
-                    onFocus={handleFocus}
-                    markerRef={(ref) => {
-                      if (ref) {
-                        ambulanceRefs.current[ambulance.id] = ref;
-                      } else {
-                        delete ambulanceRefs.current[ambulance.id];
+                  return (
+                    <HospitalMarker
+                      key={hospital.id}
+                      hospital={hospital}
+                      ambulanceCount={ambulanceCount}
+                      onHover={handleHospitalHover}
+                      isFollowing={
+                        followTarget &&
+                        followTarget.type === 'hospital' &&
+                        followTarget.id === hospital.id
                       }
-                    }}
-                  />
-                );
-              })}
+                      onFocus={handleFocus}
+                    />
+                  );
+                })}
 
-            {/* Discovery point markers */}
-            {filters.discoveryPoints &&
-              filteredDiscoveryPoints.map((point) => {
-                const relatedRoute = dynamicRoutes.find(
-                  (r) => r.discoveryPointId === point.id
-                );
-                return (
-                  <DiscoveryMarker
-                    key={point.id}
-                    point={point}
-                    relatedRoute={relatedRoute}
-                    onHover={handleRouteHover}
-                    isFollowing={
-                      followTarget &&
-                      followTarget.type === 'discovery' &&
-                      followTarget.id === point.id
-                    }
-                    onFocus={handleFocus}
-                  />
-                );
-              })}
+              {/* Ambulance markers */}
+              {filters.ambulances &&
+                filteredAmbulances.map((ambulance) => {
+                  const relatedRoute = dynamicRoutes.find(
+                    (r) => r.ambulanceId === ambulance.id
+                  );
+                  return (
+                    <AmbulanceMarker
+                      key={ambulance.id}
+                      ambulance={ambulance}
+                      relatedRoute={relatedRoute}
+                      onHover={handleRouteHover}
+                      isFollowing={
+                        followTarget &&
+                        followTarget.type === 'ambulance' &&
+                        followTarget.id === ambulance.id
+                      }
+                      onFocus={handleFocus}
+                      markerRef={(ref) => {
+                        if (ref) {
+                          ambulanceRefs.current[ambulance.id] = ref;
+                        } else {
+                          delete ambulanceRefs.current[ambulance.id];
+                        }
+                      }}
+                    />
+                  );
+                })}
 
-            {/* Route polylines - only show when ambulance has picked up patient */}
-            {filters.routes &&
-              dynamicRoutes.map((route) => {
-                const ambulance = dynamicAmbulances.find(
-                  (a) => a.id === route.ambulanceId
-                );
-                // Only show route if ambulance is transporting (to_hospital phase)
-                if (!ambulance || ambulance.phase !== 'to_hospital')
-                  return null;
+              {/* Discovery point markers */}
+              {filters.discoveryPoints &&
+                filteredDiscoveryPoints.map((point) => {
+                  const relatedRoute = dynamicRoutes.find(
+                    (r) => r.discoveryPointId === point.id
+                  );
+                  return (
+                    <DiscoveryMarker
+                      key={point.id}
+                      point={point}
+                      relatedRoute={relatedRoute}
+                      onHover={handleRouteHover}
+                      isFollowing={
+                        followTarget &&
+                        followTarget.type === 'discovery' &&
+                        followTarget.id === point.id
+                      }
+                      onFocus={handleFocus}
+                    />
+                  );
+                })}
 
-                const coordinates = getRouteCoordinates(route);
-                const isHoveredViaHospital =
-                  hoveredHospital === route.hospitalId;
+              {/* Route polylines - only show when ambulance has picked up patient */}
+              {filters.routes &&
+                dynamicRoutes.map((route) => {
+                  const ambulance = dynamicAmbulances.find(
+                    (a) => a.id === route.ambulanceId
+                  );
+                  // Only show route if ambulance is transporting (to_hospital phase)
+                  if (!ambulance || ambulance.phase !== 'to_hospital')
+                    return null;
 
-                return (
-                  <RoutePolyline
-                    key={route.id}
-                    route={route}
-                    coordinates={coordinates}
-                    isHoveredViaHospital={isHoveredViaHospital}
-                    onHover={handleRouteHover}
-                  />
-                );
-              })}
-          </MapContainer>
+                  const coordinates = getRouteCoordinates(route);
+                  const isHoveredViaHospital =
+                    hoveredHospital === route.hospitalId;
+
+                  return (
+                    <RoutePolyline
+                      key={route.id}
+                      route={route}
+                      coordinates={coordinates}
+                      isHoveredViaHospital={isHoveredViaHospital}
+                      onHover={handleRouteHover}
+                    />
+                  );
+                })}
+            </MapContainer>
+          </div>
         )}
       </div>
     </div>

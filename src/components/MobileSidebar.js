@@ -29,6 +29,8 @@ const MobileSidebar = ({
   onFocus,
   onView,
   followTarget,
+  isListPanelOpen,
+  onToggleListPanel,
 }) => {
   const { t } = useTranslation();
 
@@ -194,14 +196,34 @@ const MobileSidebar = ({
 
           {/* Focus Dropdown */}
           {isSimulating && (
-            <FocusDropdown
-              ambulances={ambulances}
-              discoveryPoints={discoveryPoints}
-              hospitals={hospitals}
-              onFocus={onFocus}
-              onView={onView}
-              followTarget={followTarget}
-            />
+            <>
+              <FocusDropdown
+                ambulances={ambulances}
+                discoveryPoints={discoveryPoints}
+                hospitals={hospitals}
+                onFocus={onFocus}
+                onView={onView}
+                followTarget={followTarget}
+              />
+
+              {/* List Panel Toggle */}
+              <button
+                className={`list-panel-toggle ${isListPanelOpen ? 'active' : ''}`}
+                onClick={onToggleListPanel}
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M3 12h18M3 6h18M3 18h18" />
+                </svg>
+                {isListPanelOpen ? 'Đóng Bảng' : 'Mở Bảng Danh Sách'}
+              </button>
+            </>
           )}
 
           <div className="search-box">
