@@ -44,9 +44,13 @@
     "low": "Low"
   },
   "status": {
+    "label": "Status",
     "enRoute": "En Route",
     "idle": "Idle",
-    "vehicles": "vehicles"
+    "vehicles": "vehicles",
+    "vehicleNumber": "Vehicle Number",
+    "englishName": "English Name",
+    "address": "Address"
   },
   "focus": {
     "title": "Focus",
@@ -56,7 +60,10 @@
     "hospital": "Hospital",
     "toDiscovery": "To Discovery",
     "atDiscovery": "At Discovery",
-    "toHospital": "To Hospital"
+    "toHospital": "To Hospital",
+    "actions": "Actions",
+    "noAmbulances": "No ambulances",
+    "noHospitals": "No hospitals"
   },
   "settings": {
     "title": "Simulation Settings",

@@ -44,9 +44,13 @@
     "low": "Thấp"
   },
   "status": {
+    "label": "Trạng Thái",
     "enRoute": "Đang Di Chuyển",
     "idle": "Đang Chờ",
-    "vehicles": "xe"
+    "vehicles": "xe",
+    "vehicleNumber": "Số Xe",
+    "englishName": "Tên Tiếng Anh",
+    "address": "Địa Chỉ"
   },
   "focus": {
     "title": "Tiêu Điểm",
@@ -56,7 +60,10 @@
     "hospital": "Bệnh Viện",
     "toDiscovery": "Đến Điểm Phát Hiện",
     "atDiscovery": "Tại Điểm Phát Hiện",
-    "toHospital": "Về Bệnh Viện"
+    "toHospital": "Về Bệnh Viện",
+    "actions": "Hành Động",
+    "noAmbulances": "Không có xe cứu thương",
+    "noHospitals": "Không có bệnh viện"
   },
   "settings": {
     "title": "Cài Đặt Mô Phỏng",

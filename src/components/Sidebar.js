@@ -27,6 +27,8 @@ const Sidebar = ({
   onFocus,
   onView,
   followTarget,
+  onToggleListPanel,
+  isListPanelOpen,
 }) => {
   const { t } = useTranslation();
 
@@ -108,6 +110,16 @@ const Sidebar = ({
           onView={onView}
           followTarget={followTarget}
         />
+      )}
+
+      {/* List Panel Toggle */}
+      {isSimulating && (
+        <button
+          className={`list-panel-toggle ${isListPanelOpen ? 'active' : ''}`}
+          onClick={onToggleListPanel}
+        >
+          {isListPanelOpen ? '📋 Đóng Bảng' : '📋 Mở Bảng Danh Sách'}
+        </button>
       )}
 
       <div className="search-box">

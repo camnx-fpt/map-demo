@@ -83,6 +83,40 @@
   touch-action: pan-x pan-y;
 }
 
+/* Split container for map and list panel */
+.split-container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.map-container {
+  height: 100%;
+  position: relative;
+}
+
+.list-panel-container {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* React-split gutter styles */
+.gutter {
+  background-color: #e2e8f0;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  cursor: col-resize;
+  transition: background-color 0.2s ease;
+}
+
+.gutter:hover {
+  background-color: #cbd5e1;
+}
+
+.gutter.gutter-horizontal {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+}
+
 /* Use dvh for better mobile support where available */
 @supports (height: 100dvh) {
   .map-wrapper {
@@ -482,6 +516,37 @@
   background: #b91c1c;
   transform: translateY(-1px);
   box-shadow: var(--shadow-md);
+}
+
+/* List panel toggle button */
+.list-panel-toggle {
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.list-panel-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.list-panel-toggle.active {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+}
+
+.list-panel-toggle.active:hover {
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
 }
 
 .speed-control {

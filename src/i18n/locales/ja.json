@@ -44,9 +44,13 @@
     "low": "低"
   },
   "status": {
+    "label": "ステータス",
     "enRoute": "搬送中",
     "idle": "待機中",
-    "vehicles": "台"
+    "vehicles": "台",
+    "vehicleNumber": "車両番号",
+    "englishName": "英語名",
+    "address": "住所"
   },
   "focus": {
     "title": "フォーカス",
@@ -56,7 +60,10 @@
     "hospital": "病院",
     "toDiscovery": "発見地点へ移動中",
     "atDiscovery": "発見地点",
-    "toHospital": "病院へ搬送中"
+    "toHospital": "病院へ搬送中",
+    "actions": "アクション",
+    "noAmbulances": "救急車がありません",
+    "noHospitals": "病院がありません"
   },
   "settings": {
     "title": "シミュレーション設定",

@@ -64,7 +64,7 @@ const AmbulanceMarker = ({
     <Marker
       ref={localMarkerRef}
       position={[ambulance.lat, ambulance.lng]}
-      icon={createAmbulanceIcon(isHovered || isFollowing, isFollowing)}
+      icon={createAmbulanceIcon(ambulance.status, isHovered, isFollowing)}
       eventHandlers={{
         mouseover: handleMouseOver,
         mouseout: handleMouseOut,
