@@ -728,6 +728,7 @@ function App() {
                 zoom={MAP_CONFIG.zoom}
                 style={{ height: '100%', width: '100%' }}
                 zoomControl={false}
+                preferCanvas={true}
               >
                 <MapController mapRef={mapRef} />
                 <MapLayers />
@@ -852,6 +853,7 @@ function App() {
               zoom={MAP_CONFIG.zoom}
               style={{ height: '100%', width: '100%' }}
               zoomControl={false}
+              preferCanvas={true}
             >
               <MapController mapRef={mapRef} />
               <MapLayers />
